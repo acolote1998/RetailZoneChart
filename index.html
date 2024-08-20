@@ -499,21 +499,21 @@
         "FLOATING"
       );
       /*
-      // Function to take a screenshot
-      function takeShot() {
-        let canvasScreenshot = document.getElementById("generateScheduleHere");
+            // Function to take a screenshot
+            function takeShot() {
+              let canvasScreenshot = document.getElementById("generateScheduleHere");
 
-        html2canvas(canvasScreenshot).then(function (canvas) {
-          let dataURL = canvas.toDataURL("image/png");
-          let link = document.createElement("a");
-          link.href = dataURL;
-          link.download = "schedule.png";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        });
-      }
-*/
+              html2canvas(canvasScreenshot).then(function (canvas) {
+                let dataURL = canvas.toDataURL("image/png");
+                let link = document.createElement("a");
+                link.href = dataURL;
+                link.download = "schedule.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              });
+            }
+      */
 
       function getTodayDate() {
         let today = new Date();
@@ -569,72 +569,72 @@
         divAddAthlete.insertAdjacentHTML(
           "beforeend",
           `
-                    <div class="row mt-3">
-                      <div class="col">
-                        Athlete` +
+                          <div class="row mt-3">
+                            <div class="col">
+                              Athlete` +
             String(contador) +
             `:
-                        <input tabindex=` + //The base tab index goes until 4, therefore the first added athletes name will have a tab index of minimum 5 and then increasing as more athletes are generated
+                              <input tabindex=` + //The base tab index goes until 4, therefore the first added athletes name will have a tab index of minimum 5 and then increasing as more athletes are generated
             String(contador + 4) +
             ` placeholder="Name Athlete" id="NameAthlete` +
             String(contador) +
             `" />
-                        Shift Start:
-                        <select tabindex="-1" id="ShiftStartAthlete` +
+                              Shift Start:
+                              <select tabindex="-1" id="ShiftStartAthlete` +
             String(contador) +
             `">
-                          <option value="09:00">09:00</option>
-                          <option value="09:30">09:30</option>
-                          <option value="09:45">09:45</option>
-                          <option value="10:00">10:00</option>
-                          <option value="10:30">10:30</option>
-                          <option value="11:00">11:00</option>
-                          <option value="11:30">11:30</option>
-                          <option value="12:00">12:00</option>
-                          <option value="12:30">12:30</option>
-                          <option value="13:00">13:00</option>
-                          <option value="13:30">13:30</option>
-                          <option value="14:00">14:00</option>
-                          <option value="14:30">14:30</option>
-                          <option value="15:00">15:00</option>
-                          <option value="15:30">15:30</option>
-                          <option value="16:00">16:00</option>
-                          <option value="16:30">16:30</option>
-                          <option value="17:00">17:00</option>
-                          <option value="17:30">17:30</option>
-                          <option value="18:00">18:00</option>
-                          <option value="18:30">18:30</option>
-                          <option value="19:00">19:00</option>
-                        </select>
-                        Shift End:
-                        <select  tabindex="-1" id="ShiftEndAthlete` +
+                                <option value="09:00">09:00</option>
+                                <option value="09:30">09:30</option>
+                                <option value="09:45">09:45</option>
+                                <option value="10:00">10:00</option>
+                                <option value="10:30">10:30</option>
+                                <option value="11:00">11:00</option>
+                                <option value="11:30">11:30</option>
+                                <option value="12:00">12:00</option>
+                                <option value="12:30">12:30</option>
+                                <option value="13:00">13:00</option>
+                                <option value="13:30">13:30</option>
+                                <option value="14:00">14:00</option>
+                                <option value="14:30">14:30</option>
+                                <option value="15:00">15:00</option>
+                                <option value="15:30">15:30</option>
+                                <option value="16:00">16:00</option>
+                                <option value="16:30">16:30</option>
+                                <option value="17:00">17:00</option>
+                                <option value="17:30">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="18:30">18:30</option>
+                                <option value="19:00">19:00</option>
+                              </select>
+                              Shift End:
+                              <select  tabindex="-1" id="ShiftEndAthlete` +
             String(contador) +
             `">
-                          <option value="12:00">12:00</option>
-                          <option value="12:30">12:30</option>
-                          <option value="13:00">13:00</option>
-                          <option value="13:30">13:30</option>
-                          <option value="14:00">14:00</option>
-                          <option value="14:30">14:30</option>
-                          <option value="15:00">15:00</option>
-                          <option value="15:30">15:30</option>
-                          <option value="16:00">16:00</option>
-                          <option value="16:30">16:30</option>
-                          <option value="17:00">17:00</option>
-                          <option value="17:30">17:30</option>
-                          <option value="18:00">18:00</option>
-                          <option value="18:30">18:30</option>
-                          <option value="19:00">19:00</option>
-                          <option value="19:30">19:30</option>
-                          <option value="20:00">20:00</option>
-                          <option value="20:30">20:30</option>
-                          <option value="21:00">21:00</option>
-                          <option value="21:30">21:30</option>
-                        </select>
+                                <option value="11:59">12:00</option>
+                                <option value="12:29">12:30</option>
+                                <option value="12:59">13:00</option>
+                                <option value="13:29">13:30</option>
+                                <option value="13:59">14:00</option>
+                                <option value="14:29">14:30</option>
+                                <option value="14:59">15:00</option>
+                                <option value="15:29">15:30</option>
+                                <option value="15:59">16:00</option>
+                                <option value="16:29">16:30</option>
+                                <option value="16:59">17:00</option>
+                                <option value="17:29">17:30</option>
+                                <option value="17:59">18:00</option>
+                                <option value="18:29">18:30</option>
+                                <option value="18:59">19:00</option>
+                                <option value="19:29">19:30</option>
+                                <option value="19:59">20:00</option>
+                                <option value="20:29">20:30</option>
+                                <option value="20:59">21:00</option>
+                                <option value="21:29">21:30</option>
+                              </select>
 
-                      </div>
-                    </div>
-                  `
+                            </div>
+                          </div>
+                        `
         );
       }
       function createArrayofAthletes() {
@@ -664,106 +664,106 @@
         baseGrid.insertAdjacentHTML(
           "beforeend",
           `<div class="row" id="AthRow">
-                      <div class="col-auto nameClass timeRow gridBorder" style="font-size: 104%; width:130px;">ATHL  </div>
-                    </div>
-                    <div class="row" id="AthleteTargetRow">
-                    <div class="col-auto nameClass gridBorder" id="TargetRow"  style="font-size: 103%; width:130px;">TRGT</div>
-                    </div>
-                    <div class="row separationTop" id="09:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">09:00-09:30</div>
-</div>
-<div class="row" id="09:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">09:30-09:45</div>
-</div>
-<div class="row separationBottom" id="09:45Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">09:45-10:00</div>
-</div>
-<div class="row separationTop" id="10:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">10:00-10:30</div>
-</div>
-<div class="row separationBottom" id="10:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">10:30-11:00</div>
-</div>
-<div class="row separationTop" id="11:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">11:00-11:30</div>
-</div>
-<div class="row separationBottom" id="11:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">11:30-12:00</div>
-</div>
-<div class="row separationTop" id="12:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">12:00-12:30</div>
-</div>
-<div class="row separationBottom" id="12:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">12:30-13:00</div>
-</div>
-<div class="row separationTop" id="13:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">13:00-13:30</div>
-</div>
-<div class="row separationBottom" id="13:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">13:30-14:00</div>
-</div>
-<div class="row separationTop" id="14:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">14:00-14:30</div>
-</div>
-<div class="row separationBottom" id="14:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">14:30-15:00</div>
-</div>
-<div class="row separationTop" id="15:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">15:00-15:30</div>
-</div>
-<div class="row separationBottom" id="15:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">15:30-16:00</div>
-</div>
-<div class="row separationTop" id="16:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">16:00-16:30</div>
-</div>
-<div class="row separationBottom" id="16:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">16:30-17:00</div>
-</div>
-<div class="row separationTop" id="17:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">17:00-17:30</div>
-</div>
-<div class="row separationBottom" id="17:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">17:30-18:00</div>
-</div>
-<div class="row separationTop" id="18:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">18:00-18:30</div>
-</div>
-<div class="row separationBottom" id="18:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">18:30-19:00</div>
-</div>
-<div class="row separationTop" id="19:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">19:00-19:30</div>
-</div>
-<div class="row separationBottom" id="19:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">19:30-20:00</div>
-</div>
-<div class="row separationTop" id="20:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">20:00-20:30</div>
-</div>
-<div class="row separationBottom" id="20:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">20:30-21:00</div>
-</div>
-<div class="row separationTop separationBottom" id="21:00Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">21:00-21:30</div>
-</div>
-<div class="row separationTop" id="21:30Row">
-    <div class="col-auto nameClass gridBorder" style="width:130px">21:30-22:00</div>
-</div>
+                            <div class="col-auto nameClass timeRow gridBorder" style="font-size: 104%; width:130px;">ATHL  </div>
+                          </div>
+                          <div class="row" id="AthleteTargetRow">
+                          <div class="col-auto nameClass gridBorder" id="TargetRow"  style="font-size: 103%; width:130px;">TRGT</div>
+                          </div>
+                          <div class="row separationTop" id="09:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">09:00-09:30</div>
+      </div>
+      <div class="row" id="09:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">09:30-09:45</div>
+      </div>
+      <div class="row separationBottom" id="09:45Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">09:45-10:00</div>
+      </div>
+      <div class="row separationTop" id="10:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">10:00-10:30</div>
+      </div>
+      <div class="row separationBottom" id="10:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">10:30-11:00</div>
+      </div>
+      <div class="row separationTop" id="11:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">11:00-11:30</div>
+      </div>
+      <div class="row separationBottom" id="11:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">11:30-12:00</div>
+      </div>
+      <div class="row separationTop" id="12:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">12:00-12:30</div>
+      </div>
+      <div class="row separationBottom" id="12:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">12:30-13:00</div>
+      </div>
+      <div class="row separationTop" id="13:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">13:00-13:30</div>
+      </div>
+      <div class="row separationBottom" id="13:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">13:30-14:00</div>
+      </div>
+      <div class="row separationTop" id="14:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">14:00-14:30</div>
+      </div>
+      <div class="row separationBottom" id="14:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">14:30-15:00</div>
+      </div>
+      <div class="row separationTop" id="15:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">15:00-15:30</div>
+      </div>
+      <div class="row separationBottom" id="15:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">15:30-16:00</div>
+      </div>
+      <div class="row separationTop" id="16:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">16:00-16:30</div>
+      </div>
+      <div class="row separationBottom" id="16:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">16:30-17:00</div>
+      </div>
+      <div class="row separationTop" id="17:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">17:00-17:30</div>
+      </div>
+      <div class="row separationBottom" id="17:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">17:30-18:00</div>
+      </div>
+      <div class="row separationTop" id="18:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">18:00-18:30</div>
+      </div>
+      <div class="row separationBottom" id="18:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">18:30-19:00</div>
+      </div>
+      <div class="row separationTop" id="19:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">19:00-19:30</div>
+      </div>
+      <div class="row separationBottom" id="19:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">19:30-20:00</div>
+      </div>
+      <div class="row separationTop" id="20:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">20:00-20:30</div>
+      </div>
+      <div class="row separationBottom" id="20:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">20:30-21:00</div>
+      </div>
+      <div class="row separationTop separationBottom" id="21:00Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">21:00-21:30</div>
+      </div>
+      <div class="row separationTop" id="21:30Row">
+          <div class="col-auto nameClass gridBorder" style="width:130px">21:30-22:00</div>
+      </div>
 
 
-`
+      `
         );
       }
 
       function drawSchedule() {
         let athlRow = document.getElementById("AthRow");
         /*
-              let SevenAMRow = document.getElementById("07:00Row");
-              let SevenThirtyAMRow = document.getElementById("07:30Row");
-              let EightAMRow = document.getElementById("08:00Row");
-              let EightThirtyAMRow = document.getElementById("08:30Row");
-              */
+                    let SevenAMRow = document.getElementById("07:00Row");
+                    let SevenThirtyAMRow = document.getElementById("07:30Row");
+                    let EightAMRow = document.getElementById("08:00Row");
+                    let EightThirtyAMRow = document.getElementById("08:30Row");
+                    */
         let TargetRow = document.getElementById("AthleteTargetRow");
         let NineAMRow = document.getElementById("09:00Row");
         let NineThirtyAMRow = document.getElementById("09:30Row");
@@ -802,26 +802,26 @@
         );
 
         /*
-             SevenAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="07:00Captain1Row"></div>'
-              );
+                   SevenAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="07:00Captain1Row"></div>'
+                    );
 
-              SevenThirtyAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="07:30Captain1Row"></div>'
-              );
+                    SevenThirtyAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="07:30Captain1Row"></div>'
+                    );
 
-              EightAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="08:00Captain1Row"></div>'
-              );
+                    EightAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="08:00Captain1Row"></div>'
+                    );
 
-              EightThirtyAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="08:30Captain1Row"></div>'
-              );
-      */
+                    EightThirtyAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="08:30Captain1Row"></div>'
+                    );
+            */
         NineAMRow.insertAdjacentHTML(
           "beforeend",
           '<div class="col openingClosingText gridBorder" id="09:00Captain1Row">OPENING</div>'
@@ -970,26 +970,26 @@
             "</div>"
         );
         /*
-              SevenAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="07:00Captain2Row"></div>'
-              );
+                    SevenAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="07:00Captain2Row"></div>'
+                    );
 
-              SevenThirtyAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="07:30Captain2Row"></div>'
-              );
+                    SevenThirtyAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="07:30Captain2Row"></div>'
+                    );
 
-              EightAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="08:00Captain2Row"></div>'
-              );
+                    EightAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="08:00Captain2Row"></div>'
+                    );
 
-              EightThirtyAMRow.insertAdjacentHTML(
-                "beforeend",
-                '<div class="col gridBorder" id="08:30Captain2Row"></div>'
-              );
-      */
+                    EightThirtyAMRow.insertAdjacentHTML(
+                      "beforeend",
+                      '<div class="col gridBorder" id="08:30Captain2Row"></div>'
+                    );
+            */
 
         TargetRow.insertAdjacentHTML(
           "beforeend",
@@ -1155,26 +1155,26 @@
               "</div>"
           );
           /*
-                SevenAMRow.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col gridBorder" id="07:00Athlete' + i + 'Row"></div>'
-                );
+                      SevenAMRow.insertAdjacentHTML(
+                        "beforeend",
+                        '<div class="col gridBorder" id="07:00Athlete' + i + 'Row"></div>'
+                      );
 
-                SevenThirtyAMRow.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col gridBorder" id="07:30Athlete' + i + 'Row"></div>'
-                );
+                      SevenThirtyAMRow.insertAdjacentHTML(
+                        "beforeend",
+                        '<div class="col gridBorder" id="07:30Athlete' + i + 'Row"></div>'
+                      );
 
-                EightAMRow.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col gridBorder" id="08:00Athlete' + i + 'Row"></div>'
-                );
+                      EightAMRow.insertAdjacentHTML(
+                        "beforeend",
+                        '<div class="col gridBorder" id="08:00Athlete' + i + 'Row"></div>'
+                      );
 
-                EightThirtyAMRow.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col gridBorder" id="08:30Athlete' + i + 'Row"></div>'
-                );
-      */
+                      EightThirtyAMRow.insertAdjacentHTML(
+                        "beforeend",
+                        '<div class="col gridBorder" id="08:30Athlete' + i + 'Row"></div>'
+                      );
+            */
           TargetRow.insertAdjacentHTML(
             "beforeend",
             '<div class="col target gridBorder" id="Athlete' +
@@ -1502,183 +1502,183 @@
       }
 
       /*    function draw0700() {
-              let AthleteNumber = 0;
-              let positionsAssigned = 0;
+                    let AthleteNumber = 0;
+                    let positionsAssigned = 0;
 
-              // Loop through each athlete
-              for (let i = 1; i <= contador; i++) {
-                // Extracting the shift start and end times from the athlete's data
-                let shiftStartHour = Number(
-                  Athletes[AthleteNumber].shifstart.slice(0, 2)
-                );
-                let shiftStartMinutes = Number(
-                  Athletes[AthleteNumber].shifstart.slice(3, 5)
-                );
-                let shiftEndHour = Number(
-                  Athletes[AthleteNumber].shiftend.slice(0, 2)
-                );
-                let shiftEndMinutes = Number(
-                  Athletes[AthleteNumber].shiftend.slice(3, 5)
-                );
+                    // Loop through each athlete
+                    for (let i = 1; i <= contador; i++) {
+                      // Extracting the shift start and end times from the athlete's data
+                      let shiftStartHour = Number(
+                        Athletes[AthleteNumber].shifstart.slice(0, 2)
+                      );
+                      let shiftStartMinutes = Number(
+                        Athletes[AthleteNumber].shifstart.slice(3, 5)
+                      );
+                      let shiftEndHour = Number(
+                        Athletes[AthleteNumber].shiftend.slice(0, 2)
+                      );
+                      let shiftEndMinutes = Number(
+                        Athletes[AthleteNumber].shiftend.slice(3, 5)
+                      );
 
-                // Constructing the ID of the element to be checked/updated
-                let elementId = "07:00Athlete" + String(i) + "Row";
-                let element = document.getElementById(elementId);
+                      // Constructing the ID of the element to be checked/updated
+                      let elementId = "07:00Athlete" + String(i) + "Row";
+                      let element = document.getElementById(elementId);
 
-                // Checking if the element exists and if its content is not "BREAK"
-                if (element && element.innerText !== "BREAK") {
-                  // Check if the athlete's shift starts at or before 07:00
-                  // and ends after 07:00
-                  if (
-                    (shiftStartHour < 7 ||
-                      (shiftStartHour === 7 && shiftStartMinutes <= 0)) &&
-                    (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 0))
-                  ) {
-                    // Assigning the position if conditions are met
-                    element.innerText = "OPN";
-                    element.classList.add("openingClosingText");
-                    positionsAssigned++;
+                      // Checking if the element exists and if its content is not "BREAK"
+                      if (element && element.innerText !== "BREAK") {
+                        // Check if the athlete's shift starts at or before 07:00
+                        // and ends after 07:00
+                        if (
+                          (shiftStartHour < 7 ||
+                            (shiftStartHour === 7 && shiftStartMinutes <= 0)) &&
+                          (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 0))
+                        ) {
+                          // Assigning the position if conditions are met
+                          element.innerText = "OPN";
+                          element.classList.add("openingClosingText");
+                          positionsAssigned++;
+                        }
+                      }
+
+                      // Moving to the next athlete
+                      AthleteNumber++;
+                    }
                   }
-                }
 
-                // Moving to the next athlete
-                AthleteNumber++;
-              }
-            }
+                  function draw0730() {
+                    let AthleteNumber = 0;
+                    let positionsAssigned = 0;
 
-            function draw0730() {
-              let AthleteNumber = 0;
-              let positionsAssigned = 0;
+                    // Loop through each athlete
+                    for (let i = 1; i <= contador; i++) {
+                      // Extracting the shift start and end times from the athlete's data
+                      let shiftStartHour = Number(
+                        Athletes[AthleteNumber].shifstart.slice(0, 2)
+                      );
+                      let shiftStartMinutes = Number(
+                        Athletes[AthleteNumber].shifstart.slice(3, 5)
+                      );
+                      let shiftEndHour = Number(
+                        Athletes[AthleteNumber].shiftend.slice(0, 2)
+                      );
+                      let shiftEndMinutes = Number(
+                        Athletes[AthleteNumber].shiftend.slice(3, 5)
+                      );
 
-              // Loop through each athlete
-              for (let i = 1; i <= contador; i++) {
-                // Extracting the shift start and end times from the athlete's data
-                let shiftStartHour = Number(
-                  Athletes[AthleteNumber].shifstart.slice(0, 2)
-                );
-                let shiftStartMinutes = Number(
-                  Athletes[AthleteNumber].shifstart.slice(3, 5)
-                );
-                let shiftEndHour = Number(
-                  Athletes[AthleteNumber].shiftend.slice(0, 2)
-                );
-                let shiftEndMinutes = Number(
-                  Athletes[AthleteNumber].shiftend.slice(3, 5)
-                );
+                      // Constructing the ID of the element to be checked/updated
+                      let elementId = "07:30Athlete" + String(i) + "Row";
+                      let element = document.getElementById(elementId);
 
-                // Constructing the ID of the element to be checked/updated
-                let elementId = "07:30Athlete" + String(i) + "Row";
-                let element = document.getElementById(elementId);
+                      // Checking if the element exists and if its content is not "BREAK"
+                      if (element && element.innerText !== "BREAK") {
+                        // Check if the athlete's shift starts at or before 07:30
+                        // and ends after 07:30
+                        if (
+                          (shiftStartHour < 7 ||
+                            (shiftStartHour === 7 && shiftStartMinutes <= 30)) &&
+                          (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 30))
+                        ) {
+                          // Assigning the position if conditions are met
+                          element.innerText = "OPN";
+                          element.classList.add("openingClosingText");
+                          positionsAssigned++;
+                        }
+                      }
 
-                // Checking if the element exists and if its content is not "BREAK"
-                if (element && element.innerText !== "BREAK") {
-                  // Check if the athlete's shift starts at or before 07:30
-                  // and ends after 07:30
-                  if (
-                    (shiftStartHour < 7 ||
-                      (shiftStartHour === 7 && shiftStartMinutes <= 30)) &&
-                    (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 30))
-                  ) {
-                    // Assigning the position if conditions are met
-                    element.innerText = "OPN";
-                    element.classList.add("openingClosingText");
-                    positionsAssigned++;
+                      // Moving to the next athlete
+                      AthleteNumber++;
+                    }
                   }
-                }
+                  function draw0800() {
+                    let AthleteNumber = 0;
+                    let positionsAssigned = 0;
 
-                // Moving to the next athlete
-                AthleteNumber++;
-              }
-            }
-            function draw0800() {
-              let AthleteNumber = 0;
-              let positionsAssigned = 0;
+                    // Loop through each athlete
+                    for (let i = 1; i <= contador; i++) {
+                      // Extracting the shift start and end times from the athlete's data
+                      let shiftStartHour = Number(
+                        Athletes[AthleteNumber].shifstart.slice(0, 2)
+                      );
+                      let shiftStartMinutes = Number(
+                        Athletes[AthleteNumber].shifstart.slice(3, 5)
+                      );
+                      let shiftEndHour = Number(
+                        Athletes[AthleteNumber].shiftend.slice(0, 2)
+                      );
+                      let shiftEndMinutes = Number(
+                        Athletes[AthleteNumber].shiftend.slice(3, 5)
+                      );
 
-              // Loop through each athlete
-              for (let i = 1; i <= contador; i++) {
-                // Extracting the shift start and end times from the athlete's data
-                let shiftStartHour = Number(
-                  Athletes[AthleteNumber].shifstart.slice(0, 2)
-                );
-                let shiftStartMinutes = Number(
-                  Athletes[AthleteNumber].shifstart.slice(3, 5)
-                );
-                let shiftEndHour = Number(
-                  Athletes[AthleteNumber].shiftend.slice(0, 2)
-                );
-                let shiftEndMinutes = Number(
-                  Athletes[AthleteNumber].shiftend.slice(3, 5)
-                );
+                      // Constructing the ID of the element to be checked/updated
+                      let elementId = "08:00Athlete" + String(i) + "Row";
+                      let element = document.getElementById(elementId);
 
-                // Constructing the ID of the element to be checked/updated
-                let elementId = "08:00Athlete" + String(i) + "Row";
-                let element = document.getElementById(elementId);
+                      // Checking if the element exists and if its content is not "BREAK"
+                      if (element && element.innerText !== "BREAK") {
+                        // Check if the athlete's shift starts at or before 07:30
+                        // and ends after 07:30
+                        if (
+                          (shiftStartHour < 8 ||
+                            (shiftStartHour === 8 && shiftStartMinutes <= 0)) &&
+                          (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 0))
+                        ) {
+                          // Assigning the position if conditions are met
+                          element.innerText = "OPN";
+                          element.classList.add("openingClosingText");
+                          positionsAssigned++;
+                        }
+                      }
 
-                // Checking if the element exists and if its content is not "BREAK"
-                if (element && element.innerText !== "BREAK") {
-                  // Check if the athlete's shift starts at or before 07:30
-                  // and ends after 07:30
-                  if (
-                    (shiftStartHour < 8 ||
-                      (shiftStartHour === 8 && shiftStartMinutes <= 0)) &&
-                    (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 0))
-                  ) {
-                    // Assigning the position if conditions are met
-                    element.innerText = "OPN";
-                    element.classList.add("openingClosingText");
-                    positionsAssigned++;
+                      // Moving to the next athlete
+                      AthleteNumber++;
+                    }
                   }
-                }
+                  function draw0830() {
+                    let AthleteNumber = 0;
+                    let positionsAssigned = 0;
 
-                // Moving to the next athlete
-                AthleteNumber++;
-              }
-            }
-            function draw0830() {
-              let AthleteNumber = 0;
-              let positionsAssigned = 0;
+                    // Loop through each athlete
+                    for (let i = 1; i <= contador; i++) {
+                      // Extracting the shift start and end times from the athlete's data
+                      let shiftStartHour = Number(
+                        Athletes[AthleteNumber].shifstart.slice(0, 2)
+                      );
+                      let shiftStartMinutes = Number(
+                        Athletes[AthleteNumber].shifstart.slice(3, 5)
+                      );
+                      let shiftEndHour = Number(
+                        Athletes[AthleteNumber].shiftend.slice(0, 2)
+                      );
+                      let shiftEndMinutes = Number(
+                        Athletes[AthleteNumber].shiftend.slice(3, 5)
+                      );
 
-              // Loop through each athlete
-              for (let i = 1; i <= contador; i++) {
-                // Extracting the shift start and end times from the athlete's data
-                let shiftStartHour = Number(
-                  Athletes[AthleteNumber].shifstart.slice(0, 2)
-                );
-                let shiftStartMinutes = Number(
-                  Athletes[AthleteNumber].shifstart.slice(3, 5)
-                );
-                let shiftEndHour = Number(
-                  Athletes[AthleteNumber].shiftend.slice(0, 2)
-                );
-                let shiftEndMinutes = Number(
-                  Athletes[AthleteNumber].shiftend.slice(3, 5)
-                );
+                      // Constructing the ID of the element to be checked/updated
+                      let elementId = "08:30Athlete" + String(i) + "Row";
+                      let element = document.getElementById(elementId);
 
-                // Constructing the ID of the element to be checked/updated
-                let elementId = "08:30Athlete" + String(i) + "Row";
-                let element = document.getElementById(elementId);
+                      // Checking if the element exists and if its content is not "BREAK"
+                      if (element && element.innerText !== "BREAK") {
+                        // Check if the athlete's shift starts at or before 07:30
+                        // and ends after 07:30
+                        if (
+                          (shiftStartHour < 8 ||
+                            (shiftStartHour === 8 && shiftStartMinutes <= 30)) &&
+                          (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 30))
+                        ) {
+                          // Assigning the position if conditions are met
+                          element.innerText = "OPN";
+                          element.classList.add("openingClosingText");
+                          positionsAssigned++;
+                        }
+                      }
 
-                // Checking if the element exists and if its content is not "BREAK"
-                if (element && element.innerText !== "BREAK") {
-                  // Check if the athlete's shift starts at or before 07:30
-                  // and ends after 07:30
-                  if (
-                    (shiftStartHour < 8 ||
-                      (shiftStartHour === 8 && shiftStartMinutes <= 30)) &&
-                    (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 30))
-                  ) {
-                    // Assigning the position if conditions are met
-                    element.innerText = "OPN";
-                    element.classList.add("openingClosingText");
-                    positionsAssigned++;
+                      // Moving to the next athlete
+                      AthleteNumber++;
+                    }
                   }
-                }
-
-                // Moving to the next athlete
-                AthleteNumber++;
-              }
-            }
-              */
+                    */
       function draw0900() {
         let AthleteNumber = 0;
         let positionsAssigned = 0;
@@ -1813,397 +1813,397 @@
         }
       }
       /*
-            function draw1000() {
-              let AthleteNumber = 0;
-              let positionsAssigned = 1;
+                  function draw1000() {
+                    let AthleteNumber = 0;
+                    let positionsAssigned = 1;
 
-              // Loop through each athlete
-              for (let i = 1; i <= contador; i++) {
-                // Extracting the shift start and end times from the athlete's data
-                let shiftStartHour = Number(
-                  Athletes[AthleteNumber].shifstart.slice(0, 2)
-                );
-                let shiftStartMinutes = Number(
-                  Athletes[AthleteNumber].shifstart.slice(3, 5)
-                );
-                let shiftEndHour = Number(
-                  Athletes[AthleteNumber].shiftend.slice(0, 2)
-                );
-                let shiftEndMinutes = Number(
-                  Athletes[AthleteNumber].shiftend.slice(3, 5)
-                );
+                    // Loop through each athlete
+                    for (let i = 1; i <= contador; i++) {
+                      // Extracting the shift start and end times from the athlete's data
+                      let shiftStartHour = Number(
+                        Athletes[AthleteNumber].shifstart.slice(0, 2)
+                      );
+                      let shiftStartMinutes = Number(
+                        Athletes[AthleteNumber].shifstart.slice(3, 5)
+                      );
+                      let shiftEndHour = Number(
+                        Athletes[AthleteNumber].shiftend.slice(0, 2)
+                      );
+                      let shiftEndMinutes = Number(
+                        Athletes[AthleteNumber].shiftend.slice(3, 5)
+                      );
 
-                // Constructing the ID of the element to be checked/updated
-                let elementId = "10:00Athlete" + String(i) + "Row";
-                let element = document.getElementById(elementId);
+                      // Constructing the ID of the element to be checked/updated
+                      let elementId = "10:00Athlete" + String(i) + "Row";
+                      let element = document.getElementById(elementId);
 
-                // Checking if the element exists and if its content is not "BREAK"
-                if (element && element.innerText !== "BREAK") {
-                  // Check if the athlete's shift starts at or before 07:30
-                  // and ends after 07:30
-                  if (
-                    (shiftStartHour < 10 ||
-                      (shiftStartHour === 10 && shiftStartMinutes <= 0)) &&
-                    (shiftEndHour > 10 ||
-                      (shiftEndHour === 10 && shiftEndMinutes > 0))
-                  ) {
-                    // Assigning the position if conditions are met
-                    //If there are two people working
-                    if (contador == 2) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[16]; //APPAREL
-                        element.classList.add(TasksClasslist[16]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[5]; //FW
-                        element.classList.add(TasksClasslist[5]);
-                      }
-                    }
-                    //If there are three people working
-                    if (contador == 3) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[16]; //APPAREL
-                        element.classList.add(TasksClasslist[16]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[5]; //FW
-                        element.classList.add(TasksClasslist[5]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[5]; //FW
-                        element.classList.add(TasksClasslist[5]);
-                      }
-                    }
-                    //If there are four people working
-                    if (contador == 4) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[1]; //WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[0];
-                        element.classList.add(TasksClasslist[0]); //MNS APP
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[6]; //KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[7]; //MNS FW
-                        element.classList.add(TasksClasslist[7]);
-                      }
-                    }
+                      // Checking if the element exists and if its content is not "BREAK"
+                      if (element && element.innerText !== "BREAK") {
+                        // Check if the athlete's shift starts at or before 07:30
+                        // and ends after 07:30
+                        if (
+                          (shiftStartHour < 10 ||
+                            (shiftStartHour === 10 && shiftStartMinutes <= 0)) &&
+                          (shiftEndHour > 10 ||
+                            (shiftEndHour === 10 && shiftEndMinutes > 0))
+                        ) {
+                          // Assigning the position if conditions are met
+                          //If there are two people working
+                          if (contador == 2) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[16]; //APPAREL
+                              element.classList.add(TasksClasslist[16]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[5]; //FW
+                              element.classList.add(TasksClasslist[5]);
+                            }
+                          }
+                          //If there are three people working
+                          if (contador == 3) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[16]; //APPAREL
+                              element.classList.add(TasksClasslist[16]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[5]; //FW
+                              element.classList.add(TasksClasslist[5]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[5]; //FW
+                              element.classList.add(TasksClasslist[5]);
+                            }
+                          }
+                          //If there are four people working
+                          if (contador == 4) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[1]; //WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[0];
+                              element.classList.add(TasksClasslist[0]); //MNS APP
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[7]; //MNS FW
+                              element.classList.add(TasksClasslist[7]);
+                            }
+                          }
 
-                    //If there are five people working
-                    if (contador == 5) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                        element.classList.add(TasksClasslist[17]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[0];
-                        element.classList.add(TasksClasslist[0]); //MNS APP
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[6]; //KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[7]; //MNS FW
-                        element.classList.add(TasksClasslist[7]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[12]; //MNS FW
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                    }
-                    // If there are six people working
-                    if (contador == 6) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[0]; // MNS APP
-                        element.classList.add(TasksClasslist[0]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                        element.classList.add(TasksClasslist[17]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[7]; // MNS FW
-                        element.classList.add(TasksClasslist[7]);
-                      }
-                    }
-                    // If there are seven people working
-                    if (contador == 7) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[0]; // MNS APP
-                        element.classList.add(TasksClasslist[0]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                        element.classList.add(TasksClasslist[17]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[8]; // PRF FW
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[7]; // MNS FW
-                        element.classList.add(TasksClasslist[7]);
-                      }
-                    }
+                          //If there are five people working
+                          if (contador == 5) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                              element.classList.add(TasksClasslist[17]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[0];
+                              element.classList.add(TasksClasslist[0]); //MNS APP
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[7]; //MNS FW
+                              element.classList.add(TasksClasslist[7]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[12]; //MNS FW
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                          }
+                          // If there are six people working
+                          if (contador == 6) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[0]; // MNS APP
+                              element.classList.add(TasksClasslist[0]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                              element.classList.add(TasksClasslist[17]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[7]; // MNS FW
+                              element.classList.add(TasksClasslist[7]);
+                            }
+                          }
+                          // If there are seven people working
+                          if (contador == 7) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[0]; // MNS APP
+                              element.classList.add(TasksClasslist[0]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                              element.classList.add(TasksClasslist[17]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[8]; // PRF FW
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[7]; // MNS FW
+                              element.classList.add(TasksClasslist[7]);
+                            }
+                          }
 
-                    // If there are eight people working
-                    if (contador == 8) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[0]; // MNS APP
-                        element.classList.add(TasksClasslist[0]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[1]; // WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[2]; // KIDS APP + FR
-                        element.classList.add(TasksClasslist[2]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[8]; // PRF FW
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 8) {
-                        element.innerText = Tasks[11]; // MNS + JRD FW
-                        element.classList.add(TasksClasslist[11]);
-                      }
-                    }
+                          // If there are eight people working
+                          if (contador == 8) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[0]; // MNS APP
+                              element.classList.add(TasksClasslist[0]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[1]; // WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[2]; // KIDS APP + FR
+                              element.classList.add(TasksClasslist[2]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[8]; // PRF FW
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 8) {
+                              element.innerText = Tasks[11]; // MNS + JRD FW
+                              element.classList.add(TasksClasslist[11]);
+                            }
+                          }
 
-                    // If there are nine people working
-                    if (contador == 9) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                        element.classList.add(TasksClasslist[3]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[4]; // MNS APP PRF
-                        element.classList.add(TasksClasslist[4]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[1]; // WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[2]; // KIDS APP + FR
-                        element.classList.add(TasksClasslist[2]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[8]; // PRF FW
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 8) {
-                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                        element.classList.add(TasksClasslist[6]);
-                      }
-                      if (positionsAssigned == 9) {
-                        element.innerText = Tasks[11]; // MNS + JRD FW
-                        element.classList.add(TasksClasslist[11]);
-                      }
-                    }
+                          // If there are nine people working
+                          if (contador == 9) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                              element.classList.add(TasksClasslist[3]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[4]; // MNS APP PRF
+                              element.classList.add(TasksClasslist[4]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[1]; // WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[2]; // KIDS APP + FR
+                              element.classList.add(TasksClasslist[2]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[8]; // PRF FW
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 8) {
+                              element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                              element.classList.add(TasksClasslist[6]);
+                            }
+                            if (positionsAssigned == 9) {
+                              element.innerText = Tasks[11]; // MNS + JRD FW
+                              element.classList.add(TasksClasslist[11]);
+                            }
+                          }
 
-                    // If there are ten people working
-                    if (contador == 10) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                        element.classList.add(TasksClasslist[3]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[4]; // MNS APP PRF
-                        element.classList.add(TasksClasslist[4]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[1]; // WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[2]; // KIDS APP + FR
-                        element.classList.add(TasksClasslist[2]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[8]; // MNS FW Performance
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 8) {
-                        element.innerText = Tasks[9]; // WMNS FW
-                        element.classList.add(TasksClasslist[9]);
-                      }
-                      if (positionsAssigned == 9) {
-                        element.innerText = Tasks[10]; // KIDS FW
-                        element.classList.add(TasksClasslist[10]);
-                      }
-                      if (positionsAssigned == 10) {
-                        element.innerText = Tasks[11]; // MNS + JRD FW
-                        element.classList.add(TasksClasslist[11]);
-                      }
-                    }
+                          // If there are ten people working
+                          if (contador == 10) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                              element.classList.add(TasksClasslist[3]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[4]; // MNS APP PRF
+                              element.classList.add(TasksClasslist[4]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[1]; // WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[2]; // KIDS APP + FR
+                              element.classList.add(TasksClasslist[2]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[8]; // MNS FW Performance
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 8) {
+                              element.innerText = Tasks[9]; // WMNS FW
+                              element.classList.add(TasksClasslist[9]);
+                            }
+                            if (positionsAssigned == 9) {
+                              element.innerText = Tasks[10]; // KIDS FW
+                              element.classList.add(TasksClasslist[10]);
+                            }
+                            if (positionsAssigned == 10) {
+                              element.innerText = Tasks[11]; // MNS + JRD FW
+                              element.classList.add(TasksClasslist[11]);
+                            }
+                          }
 
-                    // If there are eleven people working
-                    if (contador == 11) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                        element.classList.add(TasksClasslist[3]);
-                      }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[4]; // MNS APP PRF
-                        element.classList.add(TasksClasslist[4]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[1]; // WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[2]; // KIDS APP + FR
-                        element.classList.add(TasksClasslist[2]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[14]; // SUPPORT
-                        element.classList.add(TasksClasslist[14]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 8) {
-                        element.innerText = Tasks[8]; // MNS FW Performance
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 9) {
-                        element.innerText = Tasks[9]; // WMNS FW
-                        element.classList.add(TasksClasslist[9]);
-                      }
-                      if (positionsAssigned == 10) {
-                        element.innerText = Tasks[10]; // KIDS FW
-                        element.classList.add(TasksClasslist[10]);
-                      }
-                      if (positionsAssigned == 11) {
-                        element.innerText = Tasks[11]; // MNS + JRD FW
-                        element.classList.add(TasksClasslist[11]);
-                      }
-                    }
+                          // If there are eleven people working
+                          if (contador == 11) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                              element.classList.add(TasksClasslist[3]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[4]; // MNS APP PRF
+                              element.classList.add(TasksClasslist[4]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[1]; // WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[2]; // KIDS APP + FR
+                              element.classList.add(TasksClasslist[2]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[14]; // SUPPORT
+                              element.classList.add(TasksClasslist[14]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 8) {
+                              element.innerText = Tasks[8]; // MNS FW Performance
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 9) {
+                              element.innerText = Tasks[9]; // WMNS FW
+                              element.classList.add(TasksClasslist[9]);
+                            }
+                            if (positionsAssigned == 10) {
+                              element.innerText = Tasks[10]; // KIDS FW
+                              element.classList.add(TasksClasslist[10]);
+                            }
+                            if (positionsAssigned == 11) {
+                              element.innerText = Tasks[11]; // MNS + JRD FW
+                              element.classList.add(TasksClasslist[11]);
+                            }
+                          }
 
-                    // If there are twelve people working
-                    if (contador == 12) {
-                      if (positionsAssigned == 1) {
-                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                        element.classList.add(TasksClasslist[3]);
+                          // If there are twelve people working
+                          if (contador == 12) {
+                            if (positionsAssigned == 1) {
+                              element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                              element.classList.add(TasksClasslist[3]);
+                            }
+                            if (positionsAssigned == 2) {
+                              element.innerText = Tasks[4]; // MNS APP PRF
+                              element.classList.add(TasksClasslist[4]);
+                            }
+                            if (positionsAssigned == 3) {
+                              element.innerText = Tasks[1]; // WMNS APP
+                              element.classList.add(TasksClasslist[1]);
+                            }
+                            if (positionsAssigned == 4) {
+                              element.innerText = Tasks[2]; // KIDS APP + FR
+                              element.classList.add(TasksClasslist[2]);
+                            }
+                            if (positionsAssigned == 5) {
+                              element.innerText = Tasks[13]; // CASHIER
+                              element.classList.add(TasksClasslist[13]);
+                            }
+                            if (positionsAssigned == 6) {
+                              element.innerText = Tasks[14]; // SUPPORT
+                              element.classList.add(TasksClasslist[14]);
+                            }
+                            if (positionsAssigned == 7) {
+                              element.innerText = Tasks[12]; // RUNNER
+                              element.classList.add(TasksClasslist[12]);
+                            }
+                            if (positionsAssigned == 8) {
+                              element.innerText = Tasks[8]; // MNS FW Performance
+                              element.classList.add(TasksClasslist[8]);
+                            }
+                            if (positionsAssigned == 9) {
+                              element.innerText = Tasks[9]; // WMNS FW
+                              element.classList.add(TasksClasslist[9]);
+                            }
+                            if (positionsAssigned == 10) {
+                              element.innerText = Tasks[10]; // KIDS FW
+                              element.classList.add(TasksClasslist[10]);
+                            }
+                            if (positionsAssigned == 11) {
+                              element.innerText = Tasks[11]; // MNS + JRD FW
+                              element.classList.add(TasksClasslist[11]);
+                            }
+                            if (positionsAssigned == 12) {
+                              element.innerText = Tasks[15]; // GREETER
+                              element.classList.add(TasksClasslist[15]);
+                            }
+                          }
+                          positionsAssigned++;
+                        }
                       }
-                      if (positionsAssigned == 2) {
-                        element.innerText = Tasks[4]; // MNS APP PRF
-                        element.classList.add(TasksClasslist[4]);
-                      }
-                      if (positionsAssigned == 3) {
-                        element.innerText = Tasks[1]; // WMNS APP
-                        element.classList.add(TasksClasslist[1]);
-                      }
-                      if (positionsAssigned == 4) {
-                        element.innerText = Tasks[2]; // KIDS APP + FR
-                        element.classList.add(TasksClasslist[2]);
-                      }
-                      if (positionsAssigned == 5) {
-                        element.innerText = Tasks[13]; // CASHIER
-                        element.classList.add(TasksClasslist[13]);
-                      }
-                      if (positionsAssigned == 6) {
-                        element.innerText = Tasks[14]; // SUPPORT
-                        element.classList.add(TasksClasslist[14]);
-                      }
-                      if (positionsAssigned == 7) {
-                        element.innerText = Tasks[12]; // RUNNER
-                        element.classList.add(TasksClasslist[12]);
-                      }
-                      if (positionsAssigned == 8) {
-                        element.innerText = Tasks[8]; // MNS FW Performance
-                        element.classList.add(TasksClasslist[8]);
-                      }
-                      if (positionsAssigned == 9) {
-                        element.innerText = Tasks[9]; // WMNS FW
-                        element.classList.add(TasksClasslist[9]);
-                      }
-                      if (positionsAssigned == 10) {
-                        element.innerText = Tasks[10]; // KIDS FW
-                        element.classList.add(TasksClasslist[10]);
-                      }
-                      if (positionsAssigned == 11) {
-                        element.innerText = Tasks[11]; // MNS + JRD FW
-                        element.classList.add(TasksClasslist[11]);
-                      }
-                      if (positionsAssigned == 12) {
-                        element.innerText = Tasks[15]; // GREETER
-                        element.classList.add(TasksClasslist[15]);
-                      }
+
+                      // Moving to the next athlete
+                      AthleteNumber++;
                     }
-                    positionsAssigned++;
                   }
-                }
-
-                // Moving to the next athlete
-                AthleteNumber++;
-              }
-            }
-      */
+            */
       function zoneAfter10(hora, minutos) {
         let AthleteNumber = 0;
         let positionsAssigned = 1;
@@ -2212,7 +2212,9 @@
         let minutosAZonear = Number(minutos);
         let horaYMinutosAZonea = hora + ":" + minutos;
 
-        var contadorTemporal = contador;
+        // var contadorTemporal = contador;
+
+        var contadorTemporal = 0;
 
         // Calculate correct number of athletes
         for (let i = 0; i < contador; i++) {
@@ -2222,47 +2224,82 @@
           let shiftEndHour = Number(Athletes[i].shiftend.slice(0, 2));
           let shiftEndMinutes = Number(Athletes[i].shiftend.slice(3, 5));
 
-          // Redefines who is on break ahd who is not. Making sure of the new amount of workers for this time slot
-
-          if (Athletes[i].breakTimeUno == horaYMinutosAZonea) {
-            contadorTemporal = contadorTemporal - 1;
-          }
-
-          if (Athletes[i].breakTimeDos == horaYMinutosAZonea) {
-            contadorTemporal = contadorTemporal - 1;
-          }
-
-          //Double check if the Athlete has not started their shift yet, if they have not, then it removes 1 from the amount of athletes
           if (
-            (shiftStartHour >= horaAZonear &&
-              shiftStartMinutes >= minutosAZonear) ||
-            shiftStartHour > horaAZonear
+            Athletes[i].breakTimeUno != horaYMinutosAZonea &&
+            Athletes[i].breakTimeDos != horaYMinutosAZonea
           ) {
-            contadorTemporal = contadorTemporal - 1;
-          }
-          if (
-            shiftStartHour == horaAZonear &&
-            shiftStartMinutes == minutosAZonear
-          ) {
-            contadorTemporal = contadorTemporal + 1;
-          }
-
-          //Double check if the Athlete has not finished their shift yet, if so, then it removes 1 from the amount of athletes
-          if (
-            shiftEndHour <= horaAZonear &&
-            shiftEndMinutes <= minutosAZonear
-          ) {
-            contadorTemporal = contadorTemporal - 1;
-          }
-
-          if (i == contador - 1 && contadorTemporal > 0) {
-            console.log("Technically:");
             console.log(
-              "Time:" + horaYMinutosAZonea,
-              " People Working: " + contadorTemporal
+              horaYMinutosAZonea + ", " + "Athlete " + (i + 1) + " not on break"
             );
+            // Confirmed that Athlete has started already
+            if (
+              shiftStartHour < horaAZonear ||
+              (shiftStartHour == horaAZonear &&
+                shiftStartMinutes <= minutosAZonear)
+            ) {
+              // Confirmed that the Athlete finishes later
+              if (
+                shiftEndHour > horaAZonear ||
+                (shiftEndHour == horaAZonear &&
+                  shiftEndMinutes >= minutosAZonear)
+              ) {
+                contadorTemporal++;
+              }
+            }
           }
         }
+
+        /*
+                // Redefines who is on break ahd who is not. Making sure of the new amount of workers for this time slot
+
+                if (Athletes[i].breakTimeUno == horaYMinutosAZonea) {
+                  contadorTemporal = contadorTemporal - 1;
+                }
+
+                if (Athletes[i].breakTimeDos == horaYMinutosAZonea) {
+                  contadorTemporal = contadorTemporal - 1;
+                }
+
+                //Double check if the Athlete has not started their shift yet, if they have not, then it removes 1 from the amount of athletes
+                if (
+                  (shiftStartHour >= horaAZonear &&
+                    shiftStartMinutes >= minutosAZonear) ||
+                  shiftStartHour > horaAZonear
+                ) {
+                  contadorTemporal = contadorTemporal - 1;
+                }
+                if (
+                  shiftStartHour == horaAZonear &&
+                  shiftStartMinutes == minutosAZonear
+                ) {
+                  contadorTemporal = contadorTemporal + 1;
+                }
+
+                //Double check if the Athlete has not finished their shift yet, if so, then it removes 1 from the amount of athletes
+                if (
+                  shiftEndHour <= horaAZonear &&
+                  shiftEndMinutes <= minutosAZonear
+                ) {
+                  contadorTemporal = contadorTemporal - 1;
+                }
+
+                if (
+                  shiftEndHour == horaAZonear &&
+                  shiftEndMinutes == minutosAZonear
+                ) {
+                  contadorTemporal = contadorTemporal + 1;
+                }
+
+                if (i == contador - 1 && contadorTemporal > 0) {
+                  console.log("Technically:");
+                  console.log(
+                    "Time:" + horaYMinutosAZonea,
+                    " People Working: " + contadorTemporal
+                  );
+                }
+              }
+
+      */
 
         // Loop through each athlete
         for (let i = 1; i <= contador; i++) {
@@ -2857,14 +2894,7 @@
                     Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                 }
               }
-              if (i == contador && contadorTemporal > 0) {
-                console.log("Actually:");
-                console.log(
-                  "Time:" + horaYMinutosAZonea,
-                  " People Working: " + contadorTemporal
-                );
-                console.log("-------");
-              }
+
               positionsAssigned++;
             }
           }
