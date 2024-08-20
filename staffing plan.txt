@@ -1,0 +1,102 @@
+1 person
+floating
+
+2 people:
+1 Apparel
+1 FW
+
+3 people:
+1 person Apparel
+1 FW
+1 FW
+
+4 people:
+1 person Apparel WMNS
+1 person Apparel Mns
+1 Kids+Wmns FW
+1 Mens FW
+
+5 people:
+1 person Men App 
+1 person Wmns+Kids App+FR
+1 Cashier
+1 Kids+Wmns FW
+1 Mens FW
+
+6 people:
+1 person Men App 
+1 person Wmns+Kids App+FR
+1 Cashier
+1 Runner
+1 Kids+Wmns FW
+1 Mens FW
+
+7 people:
+1 person Men App 
+1 person Wmns+Kids App+FR
+1 Cashier
+1 Runner
+1 Performance FW
+1 Kids+Wmns FW
+1 Mens FW
+
+8 people:
+1 person Men App 
+1 person Wmns App
+1 person Kids App + Fitting Room
+1 Cashier
+1 Runner
+1 Performance FW
+1 Kids+Wmns FW
+1 Mens + Jordan FW
+
+
+9 people:
+1 person Men App NSW + Jordan
+1 person Men App Performance
+1 person Wmns App
+1 person Kids App + Fitting Room
+1 Cashier
+1 Runner
+1 Performance FW
+1 Kids+Wmns FW
+1 Mens + Jordan FW
+
+10 people:
+1 person Men App NSW + Jordan
+1 person Men App Performance
+1 person Wmns App
+1 person Kids App + Fitting Room
+1 Cashier
+1 Runner
+1 Mens FW Performance
+1 Wmns FW
+1 Kids FW
+1 Mens + Jordan FW
+
+11 people:
+1 person Men App NSW + Jordan
+1 person Men App Performance
+1 person Wmns App
+1 person Kids App + Fitting Room
+1 Cashier
+1 Support
+1 Runner
+1 Mens FW Performance
+1 Wmns FW
+1 Kids FW
+1 Mens + Jordan FW
+
+12 people:
+1 person Men App NSW + Jordan
+1 person Men App Performance
+1 person Wmns App
+1 person Kids App + Fitting Room
+1 Cashier
+1 Support
+1 Runner
+1 Mens FW Performance
+1 Wmns FW
+1 Kids FW
+1 Mens + Jordan FW
+1 greeter 

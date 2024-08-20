@@ -1,0 +1,3094 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .gridBorder {
+        text-align: center;
+        border: 1px solid black;
+      }
+      .separationTop {
+        margin-top: 1px;
+      }
+
+      .separationBottom {
+        margin-bottom: 1px;
+      }
+      .CAPTAIN {
+        text-align: center;
+        background-color: rgb(93, 255, 106);
+        font-weight: 900;
+        /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .openingClosingText {
+        text-align: center;
+        background-color: burlywood;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .breakText {
+        text-align: center;
+        background-color: lightgray;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+
+      .noTarget {
+        background-color: darkgray;
+      }
+
+      .MNSAPP {
+        text-align: center;
+        background-color: aquamarine;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .WMNSAPP {
+        text-align: center;
+        background-color: lightpink;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .KDSAPPFR {
+        text-align: center;
+        background-color: blueviolet;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .MNSAPPNSWJRD {
+        text-align: center;
+        background-color: lightgreen;
+        font-size: 80%;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .MNSAPPPRF {
+        text-align: center;
+        background-color: yellow;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .FW {
+        text-align: center;
+        background-color: greenyellow;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .KDSWMNSFW {
+        text-align: center;
+        background-color: lightsalmon;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .MNSFW {
+        text-align: center;
+        background-color: darkorange;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .PRFFW {
+        text-align: center;
+        background-color: darkgoldenrod;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .WMNSFW {
+        text-align: center;
+        background-color: blue;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .KIDSFW {
+        text-align: center;
+        background-color: darkcyan;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .MNSJRDFW {
+        text-align: center;
+        background-color: darkorchid;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .RUNNER {
+        text-align: center;
+        background-color: yellowgreen;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .CASHIER {
+        text-align: center;
+        background-color: darkblue;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .SUPPORT {
+        text-align: center;
+        background-color: darkmagenta;
+        color: white;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .GREETER {
+        text-align: center;
+        background-color: lightblue;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .APP {
+        text-align: center;
+        background-color: darkturquoise;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .APPWMNSKDSFR {
+        text-align: center;
+        background-color: bisque;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .FLOATING {
+        text-align: center;
+        background-color: lightpink;
+        color: black;
+        font-weight: 900; /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+      .noShowClass {
+        display: none;
+      }
+      .target {
+        text-align: center;
+        background-color: rgb(0, 238, 255);
+        font-weight: 900;
+        /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+
+      .nameClass {
+        text-align: center;
+        font-weight: 900;
+        /* */
+        padding-top: 4px;
+        font-size: 110%;
+        padding-bottom: 4px;
+        /* */
+      }
+
+      .eventInfoClass {
+        font-size: 20px;
+        background-color: black;
+        color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Your content goes here -->
+    <div class="container-fluid">
+      <div class="row" id="TeamCaptain1Info" style="font-size: 25px">
+        <div class="col">
+          Team Captain 1:
+          <input
+            tabindex="1"
+            placeholder="Name Captain 1"
+            id="NameTeamCaptain1"
+          />
+          Shift Start:
+          <select tabindex="-1" id="ShiftStartTeamCaptain1">
+            <option selected value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="09:45">09:45</option>
+            <!-- Additional option -->
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+          </select>
+          Shift End:
+          <select tabindex="-1" id="ShiftEndTeamCaptain1">
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option selected value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+            <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+            <option value="20:00">20:00</option>
+            <option value="20:30">20:30</option>
+            <option value="21:00">21:00</option>
+            <option value="21:30">21:30</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" id="TeamCaptain2Info" style="font-size: 25px">
+        <div class="col">
+          Team Captain 2:
+          <input
+            tabindex="2"
+            placeholder="Name Captain 2"
+            id="NameTeamCaptain2"
+          />
+          Shift Start:
+          <select tabindex="-1" id="ShiftStartTeamCaptain2">
+            <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="09:45">09:45</option>
+            <!-- Additional option -->
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option selected value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+          </select>
+          Shift End:
+          <select tabindex="-1" id="ShiftEndTeamCaptain2">
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+            <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+            <option value="20:00">20:00</option>
+            <option value="20:30">20:30</option>
+            <option value="21:00">21:00</option>
+            <option selected value="21:30">21:30</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" id="rowWithButtons">
+        <div class="row">
+          <button tabindex="3" onclick="addAthlete()">+ Athlete</button>
+        </div>
+        <div class="row">
+          <button onclick="generateSchedule()" tabindex="50">
+            Generate Schedule
+          </button>
+        </div>
+      </div>
+      <div class="row" id="addAthletesHere"></div>
+      <div class="row" id="generateScheduleHere">
+        <div
+          class="row"
+          id="DayInfo"
+          style="padding-bottom: 5px; padding-top: 5px; font-size: 22px"
+        >
+          <div class="col">
+            Target:
+            <input
+              tabindex="49"
+              type="number"
+              id="totalDailyTarget"
+              style="width: 120px; text-align: center"
+            />
+
+            SEK
+            <span
+              style="background-color: darkgray; color: darkgray"
+              id="separator"
+              >--</span
+            >
+            Total Selling Hours:
+            <input
+              tabindex="-1"
+              readonly
+              id="totalSellingHours"
+              style="width: 50px; text-align: center"
+            />
+
+            HOURS
+
+            <span
+              style="background-color: darkgray; color: darkgray"
+              id="separator"
+              >--</span
+            >
+            Sales per person per hour:
+            <input
+              tabindex="-1"
+              readonly
+              id="salesPPersonPHour"
+              style="width: 120px; text-align: center"
+            />
+            SEK
+          </div>
+          <div class="row">
+            <span class="eventInfoClass" id="eventInfo"></span>
+            <!-- Here we could add event of possible futures events-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Script -->
+    <script>
+      class Athlete {
+        constructor(name, shifstart, shiftend) {
+          this.name = name;
+          this.shifstart = shifstart;
+          this.shiftend = shiftend;
+          this.breakTimeUno = 0;
+          this.breakTimeDos = 0;
+          this.workedminutes = 0;
+          this.sellingHours = 0;
+        }
+      }
+
+      var Athletes = [];
+
+      var contador = 0; //Counts the amount of athletes
+
+      var cicles = 1;
+
+      var Tasks = [];
+
+      var TasksClasslist = [];
+
+      Tasks.push(
+        "MNS APP", //0
+        "WMN APP", //1
+        "K. APP+FR", //2
+        "M. APP NSW+JRD", //3
+        "M. APP PRF", //4
+        "FOOTWEAR", //5
+        "K+W FW", //6
+        "MNS FW", //7
+        "PRF FW", //8
+        "WMN FW", //9
+        "KIDS FW", //10
+        "M+JRD FW", //11
+        "RUNNER", //12
+        "CASHIER", //13
+        "SUPPORT", //14
+        "GREETER", //15
+        "APPAREL", //16
+        "APP W+K+FR", //17
+        "FLOATING", //18
+        "M FW PRF" //19
+      );
+
+      TasksClasslist.push(
+        "MNSAPP", //0
+        "WMNSAPP", //1
+        "KDSAPPFR", //2
+        "MNSAPPNSWJRD", //3
+        "MNSAPPPRF", //4
+        "FW", //5
+        "KDSWMNSFW", //6
+        "MNSFW", //7
+        "PRFFW", //8
+        "WMNSFW", //9
+        "KIDSFW", //10
+        "MNSJRDFW", //11
+        "RUNNER", //12
+        "CASHIER", //13
+        "SUPPORT", //14
+        "GREETER", //15
+        "APP", //16
+        "APPWMNSKDSFR", //17
+        "FLOATING"
+      );
+      /*
+      // Function to take a screenshot
+      function takeShot() {
+        let canvasScreenshot = document.getElementById("generateScheduleHere");
+
+        html2canvas(canvasScreenshot).then(function (canvas) {
+          let dataURL = canvas.toDataURL("image/png");
+          let link = document.createElement("a");
+          link.href = dataURL;
+          link.download = "schedule.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      }
+*/
+
+      function getTodayDate() {
+        let today = new Date();
+        let day = String(today.getDate()).padStart(2, "0");
+        let month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+        let year = today.getFullYear();
+
+        return `${day}/${month}/${year}`; // Format: MM/DD/YYYY
+      }
+
+      function takeShot() {
+        // Get the HTML content you want to append
+        //  let dayInfoHTML = document.getElementById("DayInfo").innerHTML;
+
+        // Take the screenshot of the "generateScheduleHere" element
+        let canvasScreenshot = document.getElementById("generateScheduleHere");
+
+        html2canvas(canvasScreenshot).then(function (canvas) {
+          let dataURL = canvas.toDataURL("image/png");
+
+          // Create a new window and add the appended HTML and the screenshot image to it
+          let printWindow = window.open("", "_blank");
+          printWindow.document.write(
+            "<html><head><title>Schedule " +
+              getTodayDate() +
+              "</title></head><body>"
+          );
+
+          // Append the additional HTML content first
+          //  printWindow.document.write(dayInfoHTML);
+
+          // Then append the screenshot as an image
+          printWindow.document.write(
+            '<img src="' + dataURL + '" style="width:100%;">'
+          );
+          printWindow.document.write("</body></html>");
+          printWindow.document.close();
+
+          // Wait for the content to load before triggering print
+          printWindow.onload = function () {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+          };
+        });
+      }
+
+      function addAthlete() {
+        contador++;
+        let divAddAthlete = document.getElementById("addAthletesHere");
+
+        // Append the new athlete input row
+        divAddAthlete.insertAdjacentHTML(
+          "beforeend",
+          `
+                    <div class="row mt-3">
+                      <div class="col">
+                        Athlete` +
+            String(contador) +
+            `:
+                        <input tabindex=` + //The base tab index goes until 4, therefore the first added athletes name will have a tab index of minimum 5 and then increasing as more athletes are generated
+            String(contador + 4) +
+            ` placeholder="Name Athlete" id="NameAthlete` +
+            String(contador) +
+            `" />
+                        Shift Start:
+                        <select tabindex="-1" id="ShiftStartAthlete` +
+            String(contador) +
+            `">
+                          <option value="09:00">09:00</option>
+                          <option value="09:30">09:30</option>
+                          <option value="09:45">09:45</option>
+                          <option value="10:00">10:00</option>
+                          <option value="10:30">10:30</option>
+                          <option value="11:00">11:00</option>
+                          <option value="11:30">11:30</option>
+                          <option value="12:00">12:00</option>
+                          <option value="12:30">12:30</option>
+                          <option value="13:00">13:00</option>
+                          <option value="13:30">13:30</option>
+                          <option value="14:00">14:00</option>
+                          <option value="14:30">14:30</option>
+                          <option value="15:00">15:00</option>
+                          <option value="15:30">15:30</option>
+                          <option value="16:00">16:00</option>
+                          <option value="16:30">16:30</option>
+                          <option value="17:00">17:00</option>
+                          <option value="17:30">17:30</option>
+                          <option value="18:00">18:00</option>
+                          <option value="18:30">18:30</option>
+                          <option value="19:00">19:00</option>
+                        </select>
+                        Shift End:
+                        <select  tabindex="-1" id="ShiftEndAthlete` +
+            String(contador) +
+            `">
+                          <option value="12:00">12:00</option>
+                          <option value="12:30">12:30</option>
+                          <option value="13:00">13:00</option>
+                          <option value="13:30">13:30</option>
+                          <option value="14:00">14:00</option>
+                          <option value="14:30">14:30</option>
+                          <option value="15:00">15:00</option>
+                          <option value="15:30">15:30</option>
+                          <option value="16:00">16:00</option>
+                          <option value="16:30">16:30</option>
+                          <option value="17:00">17:00</option>
+                          <option value="17:30">17:30</option>
+                          <option value="18:00">18:00</option>
+                          <option value="18:30">18:30</option>
+                          <option value="19:00">19:00</option>
+                          <option value="19:30">19:30</option>
+                          <option value="20:00">20:00</option>
+                          <option value="20:30">20:30</option>
+                          <option value="21:00">21:00</option>
+                          <option value="21:30">21:30</option>
+                        </select>
+
+                      </div>
+                    </div>
+                  `
+        );
+      }
+      function createArrayofAthletes() {
+        // Clear the Athletes array to start fresh
+        Athletes = [];
+
+        // Loop over the number of athletes
+        for (let i = 1; i <= contador; i++) {
+          // Retrieve the values from the input fields for each athlete
+          let name = document.getElementById("NameAthlete" + i).value;
+          let shiftStart = document.getElementById(
+            "ShiftStartAthlete" + i
+          ).value;
+          let shiftEnd = document.getElementById("ShiftEndAthlete" + i).value;
+
+          // Create a new Athlete object with the retrieved values
+          let athlete = new Athlete(name, shiftStart, shiftEnd);
+
+          // Push the new athlete into the Athletes array
+          Athletes.push(athlete);
+        }
+      }
+
+      function drawBaseGrid() {
+        let baseGrid = document.getElementById("generateScheduleHere");
+        //Drawing the base grid
+        baseGrid.insertAdjacentHTML(
+          "beforeend",
+          `<div class="row" id="AthRow">
+                      <div class="col-auto nameClass timeRow gridBorder" style="font-size: 104%; width:130px;">ATHL  </div>
+                    </div>
+                    <div class="row" id="AthleteTargetRow">
+                    <div class="col-auto nameClass gridBorder" id="TargetRow"  style="font-size: 103%; width:130px;">TRGT</div>
+                    </div>
+                    <div class="row separationTop" id="09:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">09:00-09:30</div>
+</div>
+<div class="row" id="09:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">09:30-09:45</div>
+</div>
+<div class="row separationBottom" id="09:45Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">09:45-10:00</div>
+</div>
+<div class="row separationTop" id="10:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">10:00-10:30</div>
+</div>
+<div class="row separationBottom" id="10:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">10:30-11:00</div>
+</div>
+<div class="row separationTop" id="11:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">11:00-11:30</div>
+</div>
+<div class="row separationBottom" id="11:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">11:30-12:00</div>
+</div>
+<div class="row separationTop" id="12:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">12:00-12:30</div>
+</div>
+<div class="row separationBottom" id="12:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">12:30-13:00</div>
+</div>
+<div class="row separationTop" id="13:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">13:00-13:30</div>
+</div>
+<div class="row separationBottom" id="13:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">13:30-14:00</div>
+</div>
+<div class="row separationTop" id="14:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">14:00-14:30</div>
+</div>
+<div class="row separationBottom" id="14:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">14:30-15:00</div>
+</div>
+<div class="row separationTop" id="15:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">15:00-15:30</div>
+</div>
+<div class="row separationBottom" id="15:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">15:30-16:00</div>
+</div>
+<div class="row separationTop" id="16:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">16:00-16:30</div>
+</div>
+<div class="row separationBottom" id="16:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">16:30-17:00</div>
+</div>
+<div class="row separationTop" id="17:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">17:00-17:30</div>
+</div>
+<div class="row separationBottom" id="17:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">17:30-18:00</div>
+</div>
+<div class="row separationTop" id="18:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">18:00-18:30</div>
+</div>
+<div class="row separationBottom" id="18:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">18:30-19:00</div>
+</div>
+<div class="row separationTop" id="19:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">19:00-19:30</div>
+</div>
+<div class="row separationBottom" id="19:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">19:30-20:00</div>
+</div>
+<div class="row separationTop" id="20:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">20:00-20:30</div>
+</div>
+<div class="row separationBottom" id="20:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">20:30-21:00</div>
+</div>
+<div class="row separationTop separationBottom" id="21:00Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">21:00-21:30</div>
+</div>
+<div class="row separationTop" id="21:30Row">
+    <div class="col-auto nameClass gridBorder" style="width:130px">21:30-22:00</div>
+</div>
+
+
+`
+        );
+      }
+
+      function drawSchedule() {
+        let athlRow = document.getElementById("AthRow");
+        /*
+              let SevenAMRow = document.getElementById("07:00Row");
+              let SevenThirtyAMRow = document.getElementById("07:30Row");
+              let EightAMRow = document.getElementById("08:00Row");
+              let EightThirtyAMRow = document.getElementById("08:30Row");
+              */
+        let TargetRow = document.getElementById("AthleteTargetRow");
+        let NineAMRow = document.getElementById("09:00Row");
+        let NineThirtyAMRow = document.getElementById("09:30Row");
+        let NineFortyFiveAMRow = document.getElementById("09:45Row");
+        let TenAMRow = document.getElementById("10:00Row");
+        let TenThirtyAMRow = document.getElementById("10:30Row");
+        let ElevenAMRow = document.getElementById("11:00Row");
+        let ElevenThirtyAMRow = document.getElementById("11:30Row");
+        let TwelvePMRow = document.getElementById("12:00Row");
+        let TwelveThirtyPMRow = document.getElementById("12:30Row");
+        let OnePMRow = document.getElementById("13:00Row");
+        let OneThirtyPMRow = document.getElementById("13:30Row");
+        let TwoPMRow = document.getElementById("14:00Row");
+        let TwoThirtyPMRow = document.getElementById("14:30Row");
+        let ThreePMRow = document.getElementById("15:00Row");
+        let ThreeThirtyPMRow = document.getElementById("15:30Row");
+        let FourPMRow = document.getElementById("16:00Row");
+        let FourThirtyPMRow = document.getElementById("16:30Row");
+        let FivePMRow = document.getElementById("17:00Row");
+        let FiveThirtyPMRow = document.getElementById("17:30Row");
+        let SixPMRow = document.getElementById("18:00Row");
+        let SixThirtyPMRow = document.getElementById("18:30Row");
+        let SevenPMRow = document.getElementById("19:00Row");
+        let SevenThirtyPMRow = document.getElementById("19:30Row");
+        let EightPMRow = document.getElementById("20:00Row");
+        let EightThirtyPMRow = document.getElementById("20:30Row");
+        let NinePMRow = document.getElementById("21:00Row");
+        let NineThirtyPMRow = document.getElementById("21:30Row");
+
+        //Inserting Captain1
+        athlRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col nameClass gridBorder" id="Captain1NameRow">' +
+            document.getElementById("NameTeamCaptain1").value.toUpperCase() +
+            "</div>"
+        );
+
+        /*
+             SevenAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="07:00Captain1Row"></div>'
+              );
+
+              SevenThirtyAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="07:30Captain1Row"></div>'
+              );
+
+              EightAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="08:00Captain1Row"></div>'
+              );
+
+              EightThirtyAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="08:30Captain1Row"></div>'
+              );
+      */
+        NineAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col openingClosingText gridBorder" id="09:00Captain1Row">OPENING</div>'
+        );
+        TargetRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col noTarget gridBorder"  id="Captain1TargetRow"></div>'
+        );
+
+        NineThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col openingClosingText gridBorder" id="09:30Captain1Row">OPENING</div>'
+        );
+
+        NineFortyFiveAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col openingClosingText gridBorder" id="09:45Captain1Row">OPENING</div>'
+        );
+
+        TenAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="10:00Captain1Row">CAPTAIN</div>'
+        );
+
+        TenThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="10:30Captain1Row">CAPTAIN</div>'
+        );
+
+        ElevenAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="11:00Captain1Row">CAPTAIN</div>'
+        );
+
+        ElevenThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="11:30Captain1Row">CAPTAIN</div>'
+        );
+
+        TwelvePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="12:00Captain1Row">CAPTAIN</div>'
+        );
+
+        TwelveThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="12:30Captain1Row">CAPTAIN</div>'
+        );
+
+        OnePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder breakText" id="13:00Captain1Row">BREAK</div>'
+        );
+
+        OneThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder breakText" id="13:30Captain1Row">BREAK</div>'
+        );
+
+        TwoPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="14:00Captain1Row">CAPTAIN</div>'
+        );
+
+        TwoThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="14:30Captain1Row">CAPTAIN</div>'
+        );
+
+        ThreePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="15:00Captain1Row">FLOATING</div>'
+        );
+
+        ThreeThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="15:30Captain1Row">FLOATING</div>'
+        );
+
+        FourPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="16:00Captain1Row">CAPTAIN</div>'
+        );
+
+        FourThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="16:30Captain1Row">CAPTAIN</div>'
+        );
+
+        FivePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="17:00Captain1Row">FLOATING</div>'
+        );
+
+        FiveThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="17:30Captain1Row">FLOATING</div>'
+        );
+
+        SixPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="18:00Captain1Row"></div>'
+        );
+
+        SixThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="18:30Captain1Row"></div>'
+        );
+
+        SevenPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="19:00Captain1Row"></div>'
+        );
+
+        SevenThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="19:30Captain1Row"></div>'
+        );
+
+        EightPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="20:00Captain1Row"></div>'
+        );
+
+        EightThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="20:30Captain1Row"></div>'
+        );
+
+        NinePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="21:00Captain1Row"></div>'
+        );
+
+        NineThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="21:30Captain1Row"></div>'
+        );
+        // End of Captain1 Inserting
+
+        //Inserting Captain2
+        athlRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col nameClass gridBorder" id="Captain2NameRow">' +
+            document.getElementById("NameTeamCaptain2").value.toUpperCase() +
+            "</div>"
+        );
+        /*
+              SevenAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="07:00Captain2Row"></div>'
+              );
+
+              SevenThirtyAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="07:30Captain2Row"></div>'
+              );
+
+              EightAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="08:00Captain2Row"></div>'
+              );
+
+              EightThirtyAMRow.insertAdjacentHTML(
+                "beforeend",
+                '<div class="col gridBorder" id="08:30Captain2Row"></div>'
+              );
+      */
+
+        TargetRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col noTarget gridBorder" id="Captain2TargetRow"></div>'
+        );
+
+        NineAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="09:00Captain2Row"></div>'
+        );
+
+        NineThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="09:30Captain2Row"></div>'
+        );
+
+        NineFortyFiveAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="09:45Captain2Row"></div>'
+        );
+
+        TenAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="10:00Captain2Row"></div>'
+        );
+
+        TenThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="10:30Captain2Row"></div>'
+        );
+
+        ElevenAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="11:00Captain2Row"></div>'
+        );
+
+        ElevenThirtyAMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="11:30Captain2Row"></div>'
+        );
+
+        TwelvePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="12:00Captain2Row"></div>'
+        );
+
+        TwelveThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="12:30Captain2Row">FLOATING</div>'
+        );
+
+        OnePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="13:00Captain2Row">CAPTAIN</div>'
+        );
+
+        OneThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="13:30Captain2Row">CAPTAIN</div>'
+        );
+
+        TwoPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="14:00Captain2Row">FLOATING</div>'
+        );
+
+        TwoThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col FLOATING gridBorder" id="14:30Captain2Row">FLOATING</div>'
+        );
+
+        ThreePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="15:00Captain2Row">CAPTAIN</div>'
+        );
+
+        ThreeThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="15:30Captain2Row">CAPTAIN</div>'
+        );
+
+        FourPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder breakText" id="16:00Captain2Row">BREAK</div>'
+        );
+
+        FourThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder breakText" id="16:30Captain2Row">BREAK</div>'
+        );
+
+        FivePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="17:00Captain2Row">CAPTAIN</div>'
+        );
+
+        FiveThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="17:30Captain2Row">CAPTAIN</div>'
+        );
+
+        SixPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="18:00Captain2Row">CAPTAIN</div>'
+        );
+
+        SixThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="18:30Captain2Row">CAPTAIN</div>'
+        );
+
+        SevenPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="19:00Captain2Row">CAPTAIN</div>'
+        );
+
+        SevenThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="19:30Captain2Row">CAPTAIN</div>'
+        );
+
+        EightPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="20:00Captain2Row">CAPTAIN</div>'
+        );
+
+        EightThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col CAPTAIN gridBorder" id="20:30Captain2Row">CAPTAIN</div>'
+        );
+
+        NinePMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col openingClosingText gridBorder" id="21:00Captain2Row">CLOSING</div>'
+        );
+
+        NineThirtyPMRow.insertAdjacentHTML(
+          "beforeend",
+          '<div class="col gridBorder" id="21:30Captain2Row"></div>'
+        );
+        // End of Captain2 Inserting
+
+        //Updates the background color of the hours of thecaptains
+        checkIfWorkingCaptain(
+          document.getElementById("ShiftStartTeamCaptain1").value,
+          document.getElementById("ShiftEndTeamCaptain1").value,
+          1
+        );
+
+        checkIfWorkingCaptain(
+          document.getElementById("ShiftStartTeamCaptain2").value,
+          document.getElementById("ShiftEndTeamCaptain2").value,
+          2
+        );
+
+        for (let i = 1; i <= contador; i++) {
+          athlRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col nameClass gridBorder" id="Aht' +
+              i +
+              'NameRow">' +
+              Athletes[i - 1].name.toUpperCase() +
+              "</div>"
+          );
+          /*
+                SevenAMRow.insertAdjacentHTML(
+                  "beforeend",
+                  '<div class="col gridBorder" id="07:00Athlete' + i + 'Row"></div>'
+                );
+
+                SevenThirtyAMRow.insertAdjacentHTML(
+                  "beforeend",
+                  '<div class="col gridBorder" id="07:30Athlete' + i + 'Row"></div>'
+                );
+
+                EightAMRow.insertAdjacentHTML(
+                  "beforeend",
+                  '<div class="col gridBorder" id="08:00Athlete' + i + 'Row"></div>'
+                );
+
+                EightThirtyAMRow.insertAdjacentHTML(
+                  "beforeend",
+                  '<div class="col gridBorder" id="08:30Athlete' + i + 'Row"></div>'
+                );
+      */
+          TargetRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col target gridBorder" id="Athlete' +
+              i +
+              'TargetRow"></div>'
+          );
+
+          NineAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="09:00Athlete' + i + 'Row"></div>'
+          );
+
+          NineThirtyAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="09:30Athlete' + i + 'Row"></div>'
+          );
+
+          NineFortyFiveAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="09:45Athlete' + i + 'Row"></div>'
+          );
+
+          TenAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="10:00Athlete' + i + 'Row"></div>'
+          );
+
+          TenThirtyAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="10:30Athlete' + i + 'Row"></div>'
+          );
+
+          ElevenAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="11:00Athlete' + i + 'Row"></div>'
+          );
+
+          ElevenThirtyAMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="11:30Athlete' + i + 'Row"></div>'
+          );
+
+          TwelvePMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="12:00Athlete' + i + 'Row"></div>'
+          );
+
+          TwelveThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="12:30Athlete' + i + 'Row"></div>'
+          );
+
+          OnePMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="13:00Athlete' + i + 'Row"></div>'
+          );
+
+          OneThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="13:30Athlete' + i + 'Row"></div>'
+          );
+
+          TwoPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="14:00Athlete' + i + 'Row"></div>'
+          );
+
+          TwoThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="14:30Athlete' + i + 'Row"></div>'
+          );
+
+          ThreePMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="15:00Athlete' + i + 'Row"></div>'
+          );
+
+          ThreeThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="15:30Athlete' + i + 'Row"></div>'
+          );
+
+          FourPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="16:00Athlete' + i + 'Row"></div>'
+          );
+
+          FourThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="16:30Athlete' + i + 'Row"></div>'
+          );
+
+          FivePMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="17:00Athlete' + i + 'Row"></div>'
+          );
+
+          FiveThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="17:30Athlete' + i + 'Row"></div>'
+          );
+
+          SixPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="18:00Athlete' + i + 'Row"></div>'
+          );
+
+          SixThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="18:30Athlete' + i + 'Row"></div>'
+          );
+
+          SevenPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="19:00Athlete' + i + 'Row"></div>'
+          );
+
+          SevenThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="19:30Athlete' + i + 'Row"></div>'
+          );
+
+          EightPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="20:00Athlete' + i + 'Row"></div>'
+          );
+
+          EightThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="20:30Athlete' + i + 'Row"></div>'
+          );
+
+          NinePMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="21:00Athlete' + i + 'Row"></div>'
+          );
+
+          NineThirtyPMRow.insertAdjacentHTML(
+            "beforeend",
+            '<div class="col gridBorder" id="21:30Athlete' + i + 'Row"></div>'
+          );
+
+          // Updates the background color of the hours that the athletes are not working
+          checkIfWorking(
+            document.getElementById("ShiftStartAthlete" + cicles).value,
+            document.getElementById("ShiftEndAthlete" + cicles).value
+          );
+
+          cicles++;
+        }
+      }
+      let scheduledBreaks = [];
+      const timeSlots = [
+        "09:00",
+        "09:30",
+        "09:45",
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00",
+        "20:30",
+        "21:00",
+        "21:30",
+      ];
+
+      function timeStringToMinutes(time) {
+        let [hours, minutes] = time.split(":").map(Number);
+        return hours * 60 + minutes;
+      }
+
+      function minutesToTimeSlot(minutes) {
+        // Find the closest time slot that is equal to or after the given minutes
+        let timeSlotIndex = timeSlots.findIndex(
+          (slot) => timeStringToMinutes(slot) > minutes
+        );
+        // If minutes is past the last slot, return the last slot
+        if (timeSlotIndex === -1) timeSlotIndex = timeSlots.length - 1;
+        return timeSlots[timeSlotIndex];
+      }
+
+      function checkIfWorking(start, end) {
+        let startMinutes = timeStringToMinutes(start);
+        let endMinutes = timeStringToMinutes(end);
+        let totalWorkingMinutes = endMinutes - startMinutes;
+        let breakMinutes = 0;
+        let breakStartMinutes = null;
+
+        // Determine break time based on working minutes
+        if (totalWorkingMinutes > 450) {
+          breakMinutes = 60;
+        } else if (totalWorkingMinutes > 330) {
+          breakMinutes = 30;
+        }
+
+        if (breakMinutes > 0) {
+          // Calculate the break start time
+          breakStartMinutes =
+            startMinutes + Math.floor((totalWorkingMinutes - breakMinutes) / 2);
+
+          // Adjust break start and end times to match the time slots
+          let adjustedBreakStartMinutes = breakStartMinutes;
+          let adjustedBreakEndMinutes = breakStartMinutes + breakMinutes;
+
+          // Find the closest time slot that matches the break start time
+          let breakStartSlotIndex = timeSlots.findIndex(
+            (slot) => timeStringToMinutes(slot) >= adjustedBreakStartMinutes
+          );
+
+          // Since we want only a 60-minute break, choose exactly two consecutive slots
+          let breakStartSlot = timeSlots[breakStartSlotIndex];
+          let breakEndSlot = timeSlots[breakStartSlotIndex + 1]; // This ensures only 2 slots are selected
+
+          // Assign adjusted break times to the Athletes object
+          Athletes[cicles - 1].breakTimeUno = breakStartSlot;
+          Athletes[cicles - 1].breakTimeDos = breakEndSlot;
+
+          // Record the scheduled break time to avoid future conflicts
+          scheduledBreaks.push({
+            start: timeStringToMinutes(breakStartSlot),
+            end: timeStringToMinutes(breakEndSlot) + 30, // +30 to ensure end of second slot is covered
+          });
+        }
+
+        // Loop through each time slot and apply working hours
+        timeSlots.forEach((time) => {
+          let timeInMinutes = timeStringToMinutes(time);
+          let rowElement = document.getElementById(
+            time + "Athlete" + cicles + "Row"
+          );
+
+          if (timeInMinutes < startMinutes || timeInMinutes >= endMinutes) {
+            // Not working outside shift hours
+            rowElement.style.backgroundColor = "darkgray";
+          } else if (
+            breakStartMinutes !== null &&
+            timeInMinutes >=
+              timeStringToMinutes(Athletes[cicles - 1].breakTimeUno) &&
+            timeInMinutes <
+              timeStringToMinutes(Athletes[cicles - 1].breakTimeDos) + 30
+          ) {
+            // Apply break
+            rowElement.style.backgroundColor = "lightgray";
+            rowElement.innerText = "BREAK";
+          }
+        });
+      }
+
+      function checkOverlap(breakStart, breakDuration) {
+        return scheduledBreaks.some(
+          (breakTime) =>
+            breakStart < breakTime.end &&
+            breakStart + breakDuration > breakTime.start
+        );
+      }
+
+      function timeStringToMinutes(time) {
+        let [hours, minutes] = time.split(":").map(Number);
+        return hours * 60 + minutes;
+      }
+
+      function checkIfWorkingCaptain(start, end, whichCaptain) {
+        // Convert time strings to minutes for easier comparison
+        let startMinutes = timeStringToMinutes(start);
+        let endMinutes = timeStringToMinutes(end);
+
+        // List of time slots
+        let timeSlots = [
+          "09:00",
+          "09:30",
+          "09:45",
+          "10:00",
+          "10:30",
+          "11:00",
+          "11:30",
+          "12:00",
+          "12:30",
+          "13:00",
+          "13:30",
+          "14:00",
+          "14:30",
+          "15:00",
+          "15:30",
+          "16:00",
+          "16:30",
+          "17:00",
+          "17:30",
+          "18:00",
+          "18:30",
+          "19:00",
+          "19:30",
+          "20:00",
+          "20:30",
+          "21:00",
+          "21:30",
+        ];
+
+        // Loop through each time slot
+        timeSlots.forEach((time) => {
+          let timeInMinutes = timeStringToMinutes(time);
+          let rowElement = document.getElementById(
+            time + "Captain" + whichCaptain + "Row"
+          );
+
+          if (timeInMinutes < startMinutes || timeInMinutes >= endMinutes) {
+            rowElement.style.backgroundColor = "darkgray";
+          }
+        });
+      }
+
+      /*    function draw0700() {
+              let AthleteNumber = 0;
+              let positionsAssigned = 0;
+
+              // Loop through each athlete
+              for (let i = 1; i <= contador; i++) {
+                // Extracting the shift start and end times from the athlete's data
+                let shiftStartHour = Number(
+                  Athletes[AthleteNumber].shifstart.slice(0, 2)
+                );
+                let shiftStartMinutes = Number(
+                  Athletes[AthleteNumber].shifstart.slice(3, 5)
+                );
+                let shiftEndHour = Number(
+                  Athletes[AthleteNumber].shiftend.slice(0, 2)
+                );
+                let shiftEndMinutes = Number(
+                  Athletes[AthleteNumber].shiftend.slice(3, 5)
+                );
+
+                // Constructing the ID of the element to be checked/updated
+                let elementId = "07:00Athlete" + String(i) + "Row";
+                let element = document.getElementById(elementId);
+
+                // Checking if the element exists and if its content is not "BREAK"
+                if (element && element.innerText !== "BREAK") {
+                  // Check if the athlete's shift starts at or before 07:00
+                  // and ends after 07:00
+                  if (
+                    (shiftStartHour < 7 ||
+                      (shiftStartHour === 7 && shiftStartMinutes <= 0)) &&
+                    (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 0))
+                  ) {
+                    // Assigning the position if conditions are met
+                    element.innerText = "OPN";
+                    element.classList.add("openingClosingText");
+                    positionsAssigned++;
+                  }
+                }
+
+                // Moving to the next athlete
+                AthleteNumber++;
+              }
+            }
+
+            function draw0730() {
+              let AthleteNumber = 0;
+              let positionsAssigned = 0;
+
+              // Loop through each athlete
+              for (let i = 1; i <= contador; i++) {
+                // Extracting the shift start and end times from the athlete's data
+                let shiftStartHour = Number(
+                  Athletes[AthleteNumber].shifstart.slice(0, 2)
+                );
+                let shiftStartMinutes = Number(
+                  Athletes[AthleteNumber].shifstart.slice(3, 5)
+                );
+                let shiftEndHour = Number(
+                  Athletes[AthleteNumber].shiftend.slice(0, 2)
+                );
+                let shiftEndMinutes = Number(
+                  Athletes[AthleteNumber].shiftend.slice(3, 5)
+                );
+
+                // Constructing the ID of the element to be checked/updated
+                let elementId = "07:30Athlete" + String(i) + "Row";
+                let element = document.getElementById(elementId);
+
+                // Checking if the element exists and if its content is not "BREAK"
+                if (element && element.innerText !== "BREAK") {
+                  // Check if the athlete's shift starts at or before 07:30
+                  // and ends after 07:30
+                  if (
+                    (shiftStartHour < 7 ||
+                      (shiftStartHour === 7 && shiftStartMinutes <= 30)) &&
+                    (shiftEndHour > 7 || (shiftEndHour === 7 && shiftEndMinutes > 30))
+                  ) {
+                    // Assigning the position if conditions are met
+                    element.innerText = "OPN";
+                    element.classList.add("openingClosingText");
+                    positionsAssigned++;
+                  }
+                }
+
+                // Moving to the next athlete
+                AthleteNumber++;
+              }
+            }
+            function draw0800() {
+              let AthleteNumber = 0;
+              let positionsAssigned = 0;
+
+              // Loop through each athlete
+              for (let i = 1; i <= contador; i++) {
+                // Extracting the shift start and end times from the athlete's data
+                let shiftStartHour = Number(
+                  Athletes[AthleteNumber].shifstart.slice(0, 2)
+                );
+                let shiftStartMinutes = Number(
+                  Athletes[AthleteNumber].shifstart.slice(3, 5)
+                );
+                let shiftEndHour = Number(
+                  Athletes[AthleteNumber].shiftend.slice(0, 2)
+                );
+                let shiftEndMinutes = Number(
+                  Athletes[AthleteNumber].shiftend.slice(3, 5)
+                );
+
+                // Constructing the ID of the element to be checked/updated
+                let elementId = "08:00Athlete" + String(i) + "Row";
+                let element = document.getElementById(elementId);
+
+                // Checking if the element exists and if its content is not "BREAK"
+                if (element && element.innerText !== "BREAK") {
+                  // Check if the athlete's shift starts at or before 07:30
+                  // and ends after 07:30
+                  if (
+                    (shiftStartHour < 8 ||
+                      (shiftStartHour === 8 && shiftStartMinutes <= 0)) &&
+                    (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 0))
+                  ) {
+                    // Assigning the position if conditions are met
+                    element.innerText = "OPN";
+                    element.classList.add("openingClosingText");
+                    positionsAssigned++;
+                  }
+                }
+
+                // Moving to the next athlete
+                AthleteNumber++;
+              }
+            }
+            function draw0830() {
+              let AthleteNumber = 0;
+              let positionsAssigned = 0;
+
+              // Loop through each athlete
+              for (let i = 1; i <= contador; i++) {
+                // Extracting the shift start and end times from the athlete's data
+                let shiftStartHour = Number(
+                  Athletes[AthleteNumber].shifstart.slice(0, 2)
+                );
+                let shiftStartMinutes = Number(
+                  Athletes[AthleteNumber].shifstart.slice(3, 5)
+                );
+                let shiftEndHour = Number(
+                  Athletes[AthleteNumber].shiftend.slice(0, 2)
+                );
+                let shiftEndMinutes = Number(
+                  Athletes[AthleteNumber].shiftend.slice(3, 5)
+                );
+
+                // Constructing the ID of the element to be checked/updated
+                let elementId = "08:30Athlete" + String(i) + "Row";
+                let element = document.getElementById(elementId);
+
+                // Checking if the element exists and if its content is not "BREAK"
+                if (element && element.innerText !== "BREAK") {
+                  // Check if the athlete's shift starts at or before 07:30
+                  // and ends after 07:30
+                  if (
+                    (shiftStartHour < 8 ||
+                      (shiftStartHour === 8 && shiftStartMinutes <= 30)) &&
+                    (shiftEndHour > 8 || (shiftEndHour === 8 && shiftEndMinutes > 30))
+                  ) {
+                    // Assigning the position if conditions are met
+                    element.innerText = "OPN";
+                    element.classList.add("openingClosingText");
+                    positionsAssigned++;
+                  }
+                }
+
+                // Moving to the next athlete
+                AthleteNumber++;
+              }
+            }
+              */
+      function draw0900() {
+        let AthleteNumber = 0;
+        let positionsAssigned = 0;
+
+        // Loop through each athlete
+        for (let i = 1; i <= contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(
+            Athletes[AthleteNumber].shifstart.slice(0, 2)
+          );
+          let shiftStartMinutes = Number(
+            Athletes[AthleteNumber].shifstart.slice(3, 5)
+          );
+          let shiftEndHour = Number(
+            Athletes[AthleteNumber].shiftend.slice(0, 2)
+          );
+          let shiftEndMinutes = Number(
+            Athletes[AthleteNumber].shiftend.slice(3, 5)
+          );
+
+          // Constructing the ID of the element to be checked/updated
+          let elementId = "09:00Athlete" + String(i) + "Row";
+          let element = document.getElementById(elementId);
+
+          // Checking if the element exists and if its content is not "BREAK"
+          if (element && element.innerText !== "BREAK") {
+            // Check if the athlete's shift starts at or before 07:30
+            // and ends after 07:30
+            if (
+              (shiftStartHour < 9 ||
+                (shiftStartHour === 9 && shiftStartMinutes <= 0)) &&
+              (shiftEndHour > 9 || (shiftEndHour === 9 && shiftEndMinutes > 0))
+            ) {
+              // Assigning the position if conditions are met
+              element.innerText = "OPENING";
+              element.classList.add("openingClosingText");
+              positionsAssigned++;
+            }
+          }
+
+          // Moving to the next athlete
+          AthleteNumber++;
+        }
+      }
+      function draw0930() {
+        let AthleteNumber = 0;
+        let positionsAssigned = 1;
+
+        // Loop through each athlete
+        for (let i = 1; i <= contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(
+            Athletes[AthleteNumber].shifstart.slice(0, 2)
+          );
+          let shiftStartMinutes = Number(
+            Athletes[AthleteNumber].shifstart.slice(3, 5)
+          );
+          let shiftEndHour = Number(
+            Athletes[AthleteNumber].shiftend.slice(0, 2)
+          );
+          let shiftEndMinutes = Number(
+            Athletes[AthleteNumber].shiftend.slice(3, 5)
+          );
+
+          // Constructing the ID of the element to be checked/updated
+          let elementId = "09:30Athlete" + String(i) + "Row";
+          let element = document.getElementById(elementId);
+
+          // Checking if the element exists and if its content is not "BREAK"
+          if (element && element.innerText !== "BREAK") {
+            // Check if the athlete's shift starts at or before 07:30
+            // and ends after 07:30
+            if (
+              (shiftStartHour < 9 ||
+                (shiftStartHour === 9 && shiftStartMinutes <= 30)) &&
+              (shiftEndHour > 9 || (shiftEndHour === 9 && shiftEndMinutes > 30))
+            ) {
+              // Assigning the position if conditions are met
+              element.innerText = "OPENING";
+              element.classList.add("openingClosingText");
+              positionsAssigned++;
+            }
+          }
+
+          // Moving to the next athlete
+          AthleteNumber++;
+        }
+      }
+
+      function draw0945() {
+        let AthleteNumber = 0;
+        let positionsAssigned = 0;
+
+        // Loop through each athlete
+        for (let i = 1; i <= contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(
+            Athletes[AthleteNumber].shifstart.slice(0, 2)
+          );
+          let shiftStartMinutes = Number(
+            Athletes[AthleteNumber].shifstart.slice(3, 5)
+          );
+          let shiftEndHour = Number(
+            Athletes[AthleteNumber].shiftend.slice(0, 2)
+          );
+          let shiftEndMinutes = Number(
+            Athletes[AthleteNumber].shiftend.slice(3, 5)
+          );
+
+          // Constructing the ID of the element to be checked/updated
+          let elementId = "09:45Athlete" + String(i) + "Row";
+          let element = document.getElementById(elementId);
+
+          // Checking if the element exists and if its content is not "BREAK"
+          if (element && element.innerText !== "BREAK") {
+            // Check if the athlete's shift starts at or before 07:30
+            // and ends after 07:30
+            if (
+              (shiftStartHour < 9 ||
+                (shiftStartHour === 9 && shiftStartMinutes <= 45)) &&
+              (shiftEndHour > 9 || (shiftEndHour === 9 && shiftEndMinutes > 45))
+            ) {
+              // Assigning the position if conditions are met
+              element.innerText = "OPENING";
+              element.classList.add("openingClosingText");
+              positionsAssigned++;
+            }
+          }
+
+          // Moving to the next athlete
+          AthleteNumber++;
+        }
+      }
+      /*
+            function draw1000() {
+              let AthleteNumber = 0;
+              let positionsAssigned = 1;
+
+              // Loop through each athlete
+              for (let i = 1; i <= contador; i++) {
+                // Extracting the shift start and end times from the athlete's data
+                let shiftStartHour = Number(
+                  Athletes[AthleteNumber].shifstart.slice(0, 2)
+                );
+                let shiftStartMinutes = Number(
+                  Athletes[AthleteNumber].shifstart.slice(3, 5)
+                );
+                let shiftEndHour = Number(
+                  Athletes[AthleteNumber].shiftend.slice(0, 2)
+                );
+                let shiftEndMinutes = Number(
+                  Athletes[AthleteNumber].shiftend.slice(3, 5)
+                );
+
+                // Constructing the ID of the element to be checked/updated
+                let elementId = "10:00Athlete" + String(i) + "Row";
+                let element = document.getElementById(elementId);
+
+                // Checking if the element exists and if its content is not "BREAK"
+                if (element && element.innerText !== "BREAK") {
+                  // Check if the athlete's shift starts at or before 07:30
+                  // and ends after 07:30
+                  if (
+                    (shiftStartHour < 10 ||
+                      (shiftStartHour === 10 && shiftStartMinutes <= 0)) &&
+                    (shiftEndHour > 10 ||
+                      (shiftEndHour === 10 && shiftEndMinutes > 0))
+                  ) {
+                    // Assigning the position if conditions are met
+                    //If there are two people working
+                    if (contador == 2) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[16]; //APPAREL
+                        element.classList.add(TasksClasslist[16]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[5]; //FW
+                        element.classList.add(TasksClasslist[5]);
+                      }
+                    }
+                    //If there are three people working
+                    if (contador == 3) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[16]; //APPAREL
+                        element.classList.add(TasksClasslist[16]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[5]; //FW
+                        element.classList.add(TasksClasslist[5]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[5]; //FW
+                        element.classList.add(TasksClasslist[5]);
+                      }
+                    }
+                    //If there are four people working
+                    if (contador == 4) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[1]; //WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[0];
+                        element.classList.add(TasksClasslist[0]); //MNS APP
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[7]; //MNS FW
+                        element.classList.add(TasksClasslist[7]);
+                      }
+                    }
+
+                    //If there are five people working
+                    if (contador == 5) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                        element.classList.add(TasksClasslist[17]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[0];
+                        element.classList.add(TasksClasslist[0]); //MNS APP
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[7]; //MNS FW
+                        element.classList.add(TasksClasslist[7]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[12]; //MNS FW
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                    }
+                    // If there are six people working
+                    if (contador == 6) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[0]; // MNS APP
+                        element.classList.add(TasksClasslist[0]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                        element.classList.add(TasksClasslist[17]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[7]; // MNS FW
+                        element.classList.add(TasksClasslist[7]);
+                      }
+                    }
+                    // If there are seven people working
+                    if (contador == 7) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[0]; // MNS APP
+                        element.classList.add(TasksClasslist[0]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                        element.classList.add(TasksClasslist[17]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[8]; // PRF FW
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[7]; // MNS FW
+                        element.classList.add(TasksClasslist[7]);
+                      }
+                    }
+
+                    // If there are eight people working
+                    if (contador == 8) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[0]; // MNS APP
+                        element.classList.add(TasksClasslist[0]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[1]; // WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[2]; // KIDS APP + FR
+                        element.classList.add(TasksClasslist[2]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[8]; // PRF FW
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 8) {
+                        element.innerText = Tasks[11]; // MNS + JRD FW
+                        element.classList.add(TasksClasslist[11]);
+                      }
+                    }
+
+                    // If there are nine people working
+                    if (contador == 9) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                        element.classList.add(TasksClasslist[3]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[4]; // MNS APP PRF
+                        element.classList.add(TasksClasslist[4]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[1]; // WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[2]; // KIDS APP + FR
+                        element.classList.add(TasksClasslist[2]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[8]; // PRF FW
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 8) {
+                        element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                        element.classList.add(TasksClasslist[6]);
+                      }
+                      if (positionsAssigned == 9) {
+                        element.innerText = Tasks[11]; // MNS + JRD FW
+                        element.classList.add(TasksClasslist[11]);
+                      }
+                    }
+
+                    // If there are ten people working
+                    if (contador == 10) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                        element.classList.add(TasksClasslist[3]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[4]; // MNS APP PRF
+                        element.classList.add(TasksClasslist[4]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[1]; // WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[2]; // KIDS APP + FR
+                        element.classList.add(TasksClasslist[2]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[8]; // MNS FW Performance
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 8) {
+                        element.innerText = Tasks[9]; // WMNS FW
+                        element.classList.add(TasksClasslist[9]);
+                      }
+                      if (positionsAssigned == 9) {
+                        element.innerText = Tasks[10]; // KIDS FW
+                        element.classList.add(TasksClasslist[10]);
+                      }
+                      if (positionsAssigned == 10) {
+                        element.innerText = Tasks[11]; // MNS + JRD FW
+                        element.classList.add(TasksClasslist[11]);
+                      }
+                    }
+
+                    // If there are eleven people working
+                    if (contador == 11) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                        element.classList.add(TasksClasslist[3]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[4]; // MNS APP PRF
+                        element.classList.add(TasksClasslist[4]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[1]; // WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[2]; // KIDS APP + FR
+                        element.classList.add(TasksClasslist[2]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[14]; // SUPPORT
+                        element.classList.add(TasksClasslist[14]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 8) {
+                        element.innerText = Tasks[8]; // MNS FW Performance
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 9) {
+                        element.innerText = Tasks[9]; // WMNS FW
+                        element.classList.add(TasksClasslist[9]);
+                      }
+                      if (positionsAssigned == 10) {
+                        element.innerText = Tasks[10]; // KIDS FW
+                        element.classList.add(TasksClasslist[10]);
+                      }
+                      if (positionsAssigned == 11) {
+                        element.innerText = Tasks[11]; // MNS + JRD FW
+                        element.classList.add(TasksClasslist[11]);
+                      }
+                    }
+
+                    // If there are twelve people working
+                    if (contador == 12) {
+                      if (positionsAssigned == 1) {
+                        element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                        element.classList.add(TasksClasslist[3]);
+                      }
+                      if (positionsAssigned == 2) {
+                        element.innerText = Tasks[4]; // MNS APP PRF
+                        element.classList.add(TasksClasslist[4]);
+                      }
+                      if (positionsAssigned == 3) {
+                        element.innerText = Tasks[1]; // WMNS APP
+                        element.classList.add(TasksClasslist[1]);
+                      }
+                      if (positionsAssigned == 4) {
+                        element.innerText = Tasks[2]; // KIDS APP + FR
+                        element.classList.add(TasksClasslist[2]);
+                      }
+                      if (positionsAssigned == 5) {
+                        element.innerText = Tasks[13]; // CASHIER
+                        element.classList.add(TasksClasslist[13]);
+                      }
+                      if (positionsAssigned == 6) {
+                        element.innerText = Tasks[14]; // SUPPORT
+                        element.classList.add(TasksClasslist[14]);
+                      }
+                      if (positionsAssigned == 7) {
+                        element.innerText = Tasks[12]; // RUNNER
+                        element.classList.add(TasksClasslist[12]);
+                      }
+                      if (positionsAssigned == 8) {
+                        element.innerText = Tasks[8]; // MNS FW Performance
+                        element.classList.add(TasksClasslist[8]);
+                      }
+                      if (positionsAssigned == 9) {
+                        element.innerText = Tasks[9]; // WMNS FW
+                        element.classList.add(TasksClasslist[9]);
+                      }
+                      if (positionsAssigned == 10) {
+                        element.innerText = Tasks[10]; // KIDS FW
+                        element.classList.add(TasksClasslist[10]);
+                      }
+                      if (positionsAssigned == 11) {
+                        element.innerText = Tasks[11]; // MNS + JRD FW
+                        element.classList.add(TasksClasslist[11]);
+                      }
+                      if (positionsAssigned == 12) {
+                        element.innerText = Tasks[15]; // GREETER
+                        element.classList.add(TasksClasslist[15]);
+                      }
+                    }
+                    positionsAssigned++;
+                  }
+                }
+
+                // Moving to the next athlete
+                AthleteNumber++;
+              }
+            }
+      */
+      function zoneAfter10(hora, minutos) {
+        let AthleteNumber = 0;
+        let positionsAssigned = 1;
+
+        let horaAZonear = Number(hora);
+        let minutosAZonear = Number(minutos);
+        let horaYMinutosAZonea = hora + ":" + minutos;
+
+        var contadorTemporal = contador;
+
+        // Calculate correct number of athletes
+        for (let i = 0; i < contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(Athletes[i].shifstart.slice(0, 2));
+          let shiftStartMinutes = Number(Athletes[i].shifstart.slice(3, 5));
+          let shiftEndHour = Number(Athletes[i].shiftend.slice(0, 2));
+          let shiftEndMinutes = Number(Athletes[i].shiftend.slice(3, 5));
+
+          // Redefines who is on break ahd who is not. Making sure of the new amount of workers for this time slot
+
+          if (Athletes[i].breakTimeUno == horaYMinutosAZonea) {
+            contadorTemporal = contadorTemporal - 1;
+          }
+
+          if (Athletes[i].breakTimeDos == horaYMinutosAZonea) {
+            contadorTemporal = contadorTemporal - 1;
+          }
+
+          //Double check if the Athlete has not started their shift yet, if they have not, then it removes 1 from the amount of athletes
+          if (
+            (shiftStartHour >= horaAZonear &&
+              shiftStartMinutes >= minutosAZonear) ||
+            shiftStartHour > horaAZonear
+          ) {
+            contadorTemporal = contadorTemporal - 1;
+          }
+          if (
+            shiftStartHour == horaAZonear &&
+            shiftStartMinutes == minutosAZonear
+          ) {
+            contadorTemporal = contadorTemporal + 1;
+          }
+
+          //Double check if the Athlete has not finished their shift yet, if so, then it removes 1 from the amount of athletes
+          if (
+            shiftEndHour <= horaAZonear &&
+            shiftEndMinutes <= minutosAZonear
+          ) {
+            contadorTemporal = contadorTemporal - 1;
+          }
+
+          if (i == contador - 1 && contadorTemporal > 0) {
+            console.log("Technically:");
+            console.log(
+              "Time:" + horaYMinutosAZonea,
+              " People Working: " + contadorTemporal
+            );
+          }
+        }
+
+        // Loop through each athlete
+        for (let i = 1; i <= contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(Athletes[i - 1].shifstart.slice(0, 2));
+          let shiftStartMinutes = Number(Athletes[i - 1].shifstart.slice(3, 5));
+          let shiftEndHour = Number(Athletes[i - 1].shiftend.slice(0, 2));
+          let shiftEndMinutes = Number(Athletes[i - 1].shiftend.slice(3, 5));
+
+          // Constructing the ID of the element to be checked/updated
+          let elementId =
+            String(horaYMinutosAZonea) + "Athlete" + String(i) + "Row";
+          let element = document.getElementById(elementId);
+
+          // Checking if the element exists and if its content is not "BREAK"
+          if (element && element.innerText !== "BREAK") {
+            // Check if the athlete's shift starts at or before 07:30
+            // and ends after 07:30
+            if (
+              (shiftStartHour < horaAZonear ||
+                (shiftStartHour === horaAZonear &&
+                  shiftStartMinutes <= minutosAZonear)) &&
+              (shiftEndHour > horaAZonear ||
+                (shiftEndHour === horaAZonear &&
+                  shiftEndMinutes > minutosAZonear))
+            ) {
+              // Assigning the position if conditions are met
+              //If there are one people working
+              if (contadorTemporal == 1) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[18]; //FLOATING
+                  element.classList.add(TasksClasslist[18]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              //If there are two people working
+              if (contadorTemporal == 2) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[16]; //APPAREL
+                  element.classList.add(TasksClasslist[16]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[5]; //FW
+                  element.classList.add(TasksClasslist[5]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              //If there are three people working
+              if (contadorTemporal == 3) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[16]; //APPAREL
+                  element.classList.add(TasksClasslist[16]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[7]; //M FW
+                  element.classList.add(TasksClasslist[7]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[6]; //K+W FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              //If there are four people working
+              if (contadorTemporal == 4) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[1]; //WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[0];
+                  element.classList.add(TasksClasslist[0]); //MNS APP
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[7]; //MNS FW
+                  element.classList.add(TasksClasslist[7]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              //If there are five people working
+              if (contadorTemporal == 5) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                  element.classList.add(TasksClasslist[17]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[0];
+                  element.classList.add(TasksClasslist[0]); //MNS APP
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[13]; //CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[7]; //MNS FW
+                  element.classList.add(TasksClasslist[7]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              // If there are six people working
+              if (contadorTemporal == 6) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[0]; // MNS APP
+                  element.classList.add(TasksClasslist[0]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                  element.classList.add(TasksClasslist[17]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[7]; // MNS FW
+                  element.classList.add(TasksClasslist[7]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              // If there are seven people working
+              if (contadorTemporal == 7) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[0]; // MNS APP
+                  element.classList.add(TasksClasslist[0]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                  element.classList.add(TasksClasslist[17]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[8]; // PRF FW
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[7]; // MNS FW
+                  element.classList.add(TasksClasslist[7]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              // If there are eight people working
+              if (contadorTemporal == 8) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[0]; // MNS APP
+                  element.classList.add(TasksClasslist[0]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[1]; // WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[2]; // KIDS APP + FR
+                  element.classList.add(TasksClasslist[2]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[8]; // PRF FW
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 8) {
+                  element.innerText = Tasks[11]; // MNS + JRD FW
+                  element.classList.add(TasksClasslist[11]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              // If there are nine people working
+              if (contadorTemporal == 9) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                  element.classList.add(TasksClasslist[3]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[4]; // MNS APP PRF
+                  element.classList.add(TasksClasslist[4]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[1]; // WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[2]; // KIDS APP + FR
+                  element.classList.add(TasksClasslist[2]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[8]; // PRF FW
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 8) {
+                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                  element.classList.add(TasksClasslist[6]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 9) {
+                  element.innerText = Tasks[11]; // MNS + JRD FW
+                  element.classList.add(TasksClasslist[11]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              // If there are ten people working
+              if (contadorTemporal == 10) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                  element.classList.add(TasksClasslist[3]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[4]; // MNS APP PRF
+                  element.classList.add(TasksClasslist[4]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[1]; // WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[2]; // KIDS APP + FR
+                  element.classList.add(TasksClasslist[2]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[19]; // MNS FW Performance
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 8) {
+                  element.innerText = Tasks[9]; // WMNS FW
+                  element.classList.add(TasksClasslist[9]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 9) {
+                  element.innerText = Tasks[10]; // KIDS FW
+                  element.classList.add(TasksClasslist[10]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 10) {
+                  element.innerText = Tasks[11]; // MNS + JRD FW
+                  element.classList.add(TasksClasslist[11]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              // If there are eleven people working
+              if (contadorTemporal == 11) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                  element.classList.add(TasksClasslist[3]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[4]; // MNS APP PRF
+                  element.classList.add(TasksClasslist[4]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[1]; // WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[2]; // KIDS APP + FR
+                  element.classList.add(TasksClasslist[2]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[14]; // SUPPORT
+                  element.classList.add(TasksClasslist[14]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 8) {
+                  element.innerText = Tasks[19]; // MNS FW Performance
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 9) {
+                  element.innerText = Tasks[9]; // WMNS FW
+                  element.classList.add(TasksClasslist[9]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 10) {
+                  element.innerText = Tasks[10]; // KIDS FW
+                  element.classList.add(TasksClasslist[10]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 11) {
+                  element.innerText = Tasks[11]; // MNS + JRD FW
+                  element.classList.add(TasksClasslist[11]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+
+              // If there are twelve people working
+              if (contadorTemporal == 12) {
+                if (positionsAssigned == 1) {
+                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                  element.classList.add(TasksClasslist[3]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 2) {
+                  element.innerText = Tasks[4]; // MNS APP PRF
+                  element.classList.add(TasksClasslist[4]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 3) {
+                  element.innerText = Tasks[1]; // WMNS APP
+                  element.classList.add(TasksClasslist[1]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 4) {
+                  element.innerText = Tasks[2]; // KIDS APP + FR
+                  element.classList.add(TasksClasslist[2]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 5) {
+                  element.innerText = Tasks[13]; // CASHIER
+                  element.classList.add(TasksClasslist[13]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 6) {
+                  element.innerText = Tasks[14]; // SUPPORT
+                  element.classList.add(TasksClasslist[14]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 7) {
+                  element.innerText = Tasks[12]; // RUNNER
+                  element.classList.add(TasksClasslist[12]);
+                }
+                if (positionsAssigned == 8) {
+                  element.innerText = Tasks[19]; // MNS FW Performance
+                  element.classList.add(TasksClasslist[8]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 9) {
+                  element.innerText = Tasks[9]; // WMNS FW
+                  element.classList.add(TasksClasslist[9]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 10) {
+                  element.innerText = Tasks[10]; // KIDS FW
+                  element.classList.add(TasksClasslist[10]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 11) {
+                  element.innerText = Tasks[11]; // MNS + JRD FW
+                  element.classList.add(TasksClasslist[11]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+                if (positionsAssigned == 12) {
+                  element.innerText = Tasks[15]; // GREETER
+                  element.classList.add(TasksClasslist[15]);
+
+                  Athletes[i - 1].sellingHours =
+                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                }
+              }
+              if (i == contador && contadorTemporal > 0) {
+                console.log("Actually:");
+                console.log(
+                  "Time:" + horaYMinutosAZonea,
+                  " People Working: " + contadorTemporal
+                );
+                console.log("-------");
+              }
+              positionsAssigned++;
+            }
+          }
+        }
+      }
+      function drawafter21() {
+        let AthleteNumber = 0;
+        let positionsAssigned = 0;
+
+        // Loop through each athlete
+        for (let i = 1; i <= contador; i++) {
+          // Extracting the shift start and end times from the athlete's data
+          let shiftStartHour = Number(
+            Athletes[AthleteNumber].shifstart.slice(0, 2)
+          );
+          let shiftStartMinutes = Number(
+            Athletes[AthleteNumber].shifstart.slice(3, 5)
+          );
+          let shiftEndHour = Number(
+            Athletes[AthleteNumber].shiftend.slice(0, 2)
+          );
+          let shiftEndMinutes = Number(
+            Athletes[AthleteNumber].shiftend.slice(3, 5)
+          );
+
+          // Constructing the ID of the element to be checked/updated
+          let elementId = "21:00Athlete" + String(i) + "Row";
+          let element = document.getElementById(elementId);
+
+          // Checking if the element exists and if its content is not "BREAK"
+          if (element && element.innerText !== "BREAK") {
+            // Check if the athlete's shift starts at or before 07:30
+            // and ends after 07:30
+            if (
+              (shiftStartHour < 21 ||
+                (shiftStartHour === 21 && shiftStartMinutes <= 0)) &&
+              (shiftEndHour > 21 ||
+                (shiftEndHour === 21 && shiftEndMinutes > 0))
+            ) {
+              // Assigning the position if conditions are met
+              element.innerText = "CLOSING";
+              element.classList.add("openingClosingText");
+              positionsAssigned++;
+            }
+          }
+
+          // Moving to the next athlete
+          AthleteNumber++;
+        }
+      }
+
+      function drawPositions() {
+        //     draw0700();
+        //     draw0730();
+        //     draw0800();
+        //     draw0830();
+
+        draw0900();
+        draw0930();
+        draw0945();
+        //draw1000();
+        zoneAfter10("10", "00");
+        zoneAfter10("10", "30");
+        zoneAfter10("11", "00");
+        zoneAfter10("11", "30");
+        zoneAfter10("12", "00");
+        zoneAfter10("12", "30");
+        zoneAfter10("13", "00");
+        zoneAfter10("13", "30");
+        zoneAfter10("14", "00");
+        zoneAfter10("14", "30");
+        zoneAfter10("15", "00");
+        zoneAfter10("15", "30");
+        zoneAfter10("16", "00");
+        zoneAfter10("16", "30");
+        zoneAfter10("17", "00");
+        zoneAfter10("17", "30");
+        zoneAfter10("18", "00");
+        zoneAfter10("18", "30");
+        zoneAfter10("19", "00");
+        zoneAfter10("19", "30");
+        zoneAfter10("20", "00");
+        zoneAfter10("20", "30");
+        drawafter21();
+      }
+
+      function hideRest() {
+        document
+          .getElementById("TeamCaptain1Info")
+          .classList.add("noShowClass");
+        document
+          .getElementById("TeamCaptain2Info")
+          .classList.add("noShowClass");
+
+        document.getElementById("rowWithButtons").classList.add("noShowClass");
+
+        document.getElementById("addAthletesHere").classList.add("noShowClass");
+      }
+
+      function updateDayKpis() {
+        // PART OF THE CODE THAT UPDATES THE INITIAL KPIS DOM
+
+        let totalSellingHours = 0;
+        for (i = 0; i < Athletes.length; i++) {
+          totalSellingHours = Number(
+            totalSellingHours + Athletes[i].sellingHours
+          );
+        }
+        document.getElementById("totalSellingHours").value = totalSellingHours;
+
+        let target = Number(document.getElementById("totalDailyTarget").value);
+        let targetPPersonPHour = Math.ceil(target / totalSellingHours);
+        document.getElementById("salesPPersonPHour").value = targetPPersonPHour;
+
+        // PART OF THE CODE THAT UPDATES THE INITIAL KPIS DOM
+
+        // CALCULATING INDIVIDUAL TARGETS
+        for (i = 0; i < Athletes.length; i++) {
+          document.getElementById("Athlete" + (i + 1) + "TargetRow").innerText =
+            String(targetPPersonPHour * Athletes[i].sellingHours) + " SEK";
+        }
+        // CALCULATING INDIVIDUAL TARGETS
+      }
+
+      function checkifEventIsHappening() {
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "19/08/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText = "OPR 10:00";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "25/08/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "AIK VS BP 16:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "28/08/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "MORGAN WALLEN 19:00 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "08/09/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "SWEDEN VS ESTONIA 20:45 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "15/09/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "AIK VS MALMO 14:00 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "29/09/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "AIK VS HAMMARBY 14:00 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "6/10/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "AIK VS HACKEN 14:00 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+
+        if (String(getTodayDate()) == "28/11/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "INTERNATIONAL HORSE SHOW 12:45 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "29/11/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "INTERNATIONAL HORSE SHOW 09:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "30/11/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "INTERNATIONAL HORSE SHOW 09:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "01/12/2024") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "INTERNATIONAL HORSE SHOW 09:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "22/08/2025") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "ED SHEERAN 16:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+        if (String(getTodayDate()) == "23/08/2025") {
+          // EVENT IS HAPPENING
+          document.getElementById("eventInfo").innerText =
+            "ED SHEERAN 16:30 IN STRAWBERRY ARENA";
+        }
+        ////////////////////////////////////////////////////////////////
+      }
+
+      function generateSchedule() {
+        hideRest();
+        createArrayofAthletes(); //Retrieves the athlete data and creates an array with their information
+
+        drawBaseGrid(); //Function that draws a base grid where rows and columns will be added
+
+        drawSchedule(); // Function that draws the schedule
+
+        drawPositions(); //Function that draws the positions in the schedule
+
+        updateDayKpis(); // Updates the Dom with KPIS and so
+
+        checkifEventIsHappening(); //Runs a function that checks if an event is happening this day
+
+        takeShot(); // Save the schedule
+      }
+    </script>
+    <!-- Include from the CDN to screenshot -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+  </body>
+</html>
