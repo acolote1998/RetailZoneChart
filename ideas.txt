@@ -1,3 +1,16 @@
 - Add Select Options to change Zoning
 
-- Calculate selling hours based on the HTML when pressing a button ( maybe "calculate selling hours " ? ) So we have to chance to modify the schedule before calculating the individual targets.
+- Calculate selling hours based on the HTML when pressing a button ( maybe "calculate selling hours " ? ) So we have to chance to modify the 
+schedule before calculating the individual targets.
+
+- Have the positions be "selects" and that when the schedule targets get generated (and before printing it), pass the slects to just SPANS
+
+- Check that during weekdays cashiers do not have a lower target?
+
+- Make sure 1 hour break gets given for only more than 7 hours shifts
+
+- Have the program tell us 5 days in advance when an event is upcoming
+
+- Have a way to every 2 hours change tasks ( so there is no athletes doing the same forever )
+
+- Make sure breaks are give after maximum 5 consecutive hours

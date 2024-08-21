@@ -239,7 +239,7 @@
       }
       .target {
         text-align: center;
-        background-color: rgb(0, 238, 255);
+        background-color: rgb(242, 255, 255);
         font-weight: 900;
         /* */
         padding-top: 4px;
@@ -442,6 +442,27 @@
           this.workedminutes = 0;
           this.sellingHours = 0;
         }
+
+        calculateBreakTimeDosEnd() {
+          // Function that solves a bug generated when breaks are generated
+          if (this.workedminutes >= 420) {
+            //deserving 60 minutes break
+            if (Number(this.breakTimeUno.slice(3, 4) != 3)) {
+              //If not break finishing with :30
+              this.breakTimeDos =
+                String(Number(this.breakTimeUno.slice(0, 2))) + ":30";
+            }
+            if (Number(this.breakTimeUno.slice(3, 4) == 3)) {
+              //If break finishing with :30
+              this.breakTimeDos =
+                String(Number(this.breakTimeUno.slice(0, 2)) + 1) + ":00";
+            }
+          }
+          if (this.workedminutes >= 329 && this.workedminutes < 420) {
+            //deserving 30 minutes break
+            this.breakTimeDos = "nothig";
+          }
+        }
       }
 
       var Athletes = [];
@@ -515,13 +536,41 @@
             }
       */
 
+      // Function to get the day of the week for a given date
+      function getDayOfWeek(dateStr) {
+        // Parse the date string in DD/MM/YYYY format
+        const [day, month, year] = dateStr.split("/").map(Number);
+
+        // Create a new Date object (month is 0-indexed, so subtract 1 from month)
+        const date = new Date(year, month - 1, day);
+
+        // Array to map day numbers to day names
+        const daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+
+        // Get the name of the day
+
+        return daysOfWeek[date.getDay()];
+      }
+
+      // Example usage with the date string from the getTodayDate function
+      const todayDate = getTodayDate(); // Assume this function returns "21/08/2024"
+      const dayOfWeek = getDayOfWeek(todayDate);
+
       function getTodayDate() {
         let today = new Date();
         let day = String(today.getDate()).padStart(2, "0");
         let month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
         let year = today.getFullYear();
 
-        return `${day}/${month}/${year}`; // Format: MM/DD/YYYY
+        return `${day}/${month}/${year}`; // Format: DD/MM/YYYY
       }
 
       function takeShot() {
@@ -1323,6 +1372,8 @@
             document.getElementById("ShiftEndAthlete" + cicles).value
           );
 
+          Athletes[i - 1].calculateBreakTimeDosEnd(); //Rechecks the break times in the Athlete object
+
           cicles++;
         }
       }
@@ -1380,39 +1431,62 @@
         let breakStartMinutes = null;
 
         // Determine break time based on working minutes
-        if (totalWorkingMinutes > 450) {
-          breakMinutes = 60;
-        } else if (totalWorkingMinutes > 330) {
-          breakMinutes = 30;
+        if (totalWorkingMinutes > 420) {
+          //if working 7 hours or more, 60 minutes
+          breakMinutes = 59; // Set to 59 minutes instead of 60
+        } else if (totalWorkingMinutes >= 329) {
+          breakMinutes = 29; // Set to 29 minutes instead of 30
         }
 
         if (breakMinutes > 0) {
-          // Calculate the break start time
           breakStartMinutes =
             startMinutes + Math.floor((totalWorkingMinutes - breakMinutes) / 2);
 
-          // Adjust break start and end times to match the time slots
+          let breakAssigned = false;
           let adjustedBreakStartMinutes = breakStartMinutes;
           let adjustedBreakEndMinutes = breakStartMinutes + breakMinutes;
 
-          // Find the closest time slot that matches the break start time
-          let breakStartSlotIndex = timeSlots.findIndex(
-            (slot) => timeStringToMinutes(slot) >= adjustedBreakStartMinutes
-          );
+          while (!breakAssigned) {
+            // Check if the proposed break overlaps with any existing breaks
+            if (!checkOverlap(adjustedBreakStartMinutes, breakMinutes)) {
+              breakAssigned = true;
 
-          // Since we want only a 60-minute break, choose exactly two consecutive slots
-          let breakStartSlot = timeSlots[breakStartSlotIndex];
-          let breakEndSlot = timeSlots[breakStartSlotIndex + 1]; // This ensures only 2 slots are selected
+              let breakStartSlotIndex = timeSlots.findIndex(
+                (slot) => timeStringToMinutes(slot) >= adjustedBreakStartMinutes
+              );
 
-          // Assign adjusted break times to the Athletes object
-          Athletes[cicles - 1].breakTimeUno = breakStartSlot;
-          Athletes[cicles - 1].breakTimeDos = breakEndSlot;
+              let breakStartSlot = timeSlots[breakStartSlotIndex];
+              let breakEndSlot = null;
 
-          // Record the scheduled break time to avoid future conflicts
-          scheduledBreaks.push({
-            start: timeStringToMinutes(breakStartSlot),
-            end: timeStringToMinutes(breakEndSlot) + 30, // +30 to ensure end of second slot is covered
-          });
+              if (breakMinutes === 59) {
+                breakEndSlot = timeSlots[breakStartSlotIndex]; // Ends at :59 in the same slot
+              } else if (breakMinutes === 29) {
+                breakEndSlot = timeSlots[breakStartSlotIndex]; // Ends at :29 in the same slot
+              }
+
+              Athletes[cicles - 1].breakTimeUno = breakStartSlot;
+              Athletes[cicles - 1].breakTimeDos = breakEndSlot;
+              Athletes[cicles - 1].workedminutes = totalWorkingMinutes;
+
+              // Record the break with the adjusted end time
+              scheduledBreaks.push({
+                start: timeStringToMinutes(breakStartSlot),
+                end: timeStringToMinutes(breakStartSlot) + breakMinutes,
+              });
+            } else {
+              // If there is an overlap, try moving the break earlier or later
+              adjustedBreakStartMinutes += 15; // Adjust by 15 minutes and try again
+              adjustedBreakEndMinutes =
+                adjustedBreakStartMinutes + breakMinutes;
+
+              // Ensure that the adjusted break time doesn't exceed the shift end
+              if (adjustedBreakEndMinutes > endMinutes) {
+                adjustedBreakStartMinutes -= 30;
+                adjustedBreakEndMinutes =
+                  adjustedBreakStartMinutes + breakMinutes;
+              }
+            }
+          }
         }
 
         // Loop through each time slot and apply working hours
@@ -1430,7 +1504,8 @@
             timeInMinutes >=
               timeStringToMinutes(Athletes[cicles - 1].breakTimeUno) &&
             timeInMinutes <
-              timeStringToMinutes(Athletes[cicles - 1].breakTimeDos) + 30
+              timeStringToMinutes(Athletes[cicles - 1].breakTimeDos) +
+                breakMinutes
           ) {
             // Apply break
             rowElement.style.backgroundColor = "lightgray";
@@ -2430,8 +2505,17 @@
                   element.innerText = Tasks[13]; //CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 4) {
                   element.innerText = Tasks[7]; //MNS FW
@@ -2468,12 +2552,29 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 4) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 5) {
                   element.innerText = Tasks[6]; // KIDS AND WMNS FW
@@ -2510,12 +2611,29 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 4) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 5) {
                   element.innerText = Tasks[8]; // PRF FW
@@ -2567,12 +2685,29 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 5) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 6) {
                   element.innerText = Tasks[8]; // PRF FW
@@ -2631,12 +2766,29 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 6) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 7) {
                   element.innerText = Tasks[8]; // PRF FW
@@ -2695,12 +2847,29 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 6) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 7) {
                   element.innerText = Tasks[19]; // MNS FW Performance
@@ -2766,8 +2935,17 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 6) {
                   element.innerText = Tasks[14]; // SUPPORT
@@ -2779,6 +2957,14 @@
                 if (positionsAssigned == 7) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 8) {
                   element.innerText = Tasks[19]; // MNS FW Performance
@@ -2844,8 +3030,17 @@
                   element.innerText = Tasks[13]; // CASHIER
                   element.classList.add(TasksClasslist[13]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
                 if (positionsAssigned == 6) {
                   element.innerText = Tasks[14]; // SUPPORT
@@ -2857,6 +3052,14 @@
                 if (positionsAssigned == 7) {
                   element.innerText = Tasks[12]; // RUNNER
                   element.classList.add(TasksClasslist[12]);
+                  if (
+                    getDayOfWeek(getTodayDate()) == "Saturday" ||
+                    getDayOfWeek(getTodayDate()) == "Sunday"
+                  ) {
+                  } else {
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                  }
                 }
                 if (positionsAssigned == 8) {
                   element.innerText = Tasks[19]; // MNS FW Performance
