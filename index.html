@@ -315,6 +315,9 @@
             <option value="21:30">21:30</option>
           </select>
         </div>
+        <div class="col">
+          Generate Runner? <input type="checkbox" id="runnerGenerated" />
+        </div>
       </div>
       <div class="row" id="TeamCaptain2Info" style="font-size: 25px">
         <div class="col">
@@ -368,62 +371,64 @@
         <div class="row">
           <button tabindex="3" onclick="addAthlete()">+ Athlete</button>
         </div>
+
         <div class="row">
           <button onclick="generateSchedule()" tabindex="50">
             Generate Schedule
           </button>
         </div>
       </div>
-      <div class="row" id="addAthletesHere"></div>
-      <div class="row" id="generateScheduleHere">
-        <div
-          class="row"
-          id="DayInfo"
-          style="padding-bottom: 5px; padding-top: 5px; font-size: 22px"
-        >
-          <div class="col">
-            Target:
-            <input
-              tabindex="49"
-              type="number"
-              id="totalDailyTarget"
-              style="width: 120px; text-align: center"
-            />
+    </div>
 
-            SEK
-            <span
-              style="background-color: darkgray; color: darkgray"
-              id="separator"
-              >--</span
-            >
-            Total Selling Hours:
-            <input
-              tabindex="-1"
-              readonly
-              id="totalSellingHours"
-              style="width: 50px; text-align: center"
-            />
+    <div class="row" id="addAthletesHere"></div>
+    <div class="row" id="generateScheduleHere">
+      <div
+        class="row"
+        id="DayInfo"
+        style="padding-bottom: 5px; padding-top: 5px; font-size: 22px"
+      >
+        <div class="col">
+          Target:
+          <input
+            tabindex="49"
+            type="number"
+            id="totalDailyTarget"
+            style="width: 120px; text-align: center"
+          />
 
-            HOURS
+          SEK
+          <span
+            style="background-color: darkgray; color: darkgray"
+            id="separator"
+            >--</span
+          >
+          Total Selling Hours:
+          <input
+            tabindex="-1"
+            readonly
+            id="totalSellingHours"
+            style="width: 50px; text-align: center"
+          />
 
-            <span
-              style="background-color: darkgray; color: darkgray"
-              id="separator"
-              >--</span
-            >
-            Sales per person per hour:
-            <input
-              tabindex="-1"
-              readonly
-              id="salesPPersonPHour"
-              style="width: 120px; text-align: center"
-            />
-            SEK
-          </div>
-          <div class="row">
-            <span class="eventInfoClass" id="eventInfo"></span>
-            <!-- Here we could add event of possible futures events-->
-          </div>
+          HOURS
+
+          <span
+            style="background-color: darkgray; color: darkgray"
+            id="separator"
+            >--</span
+          >
+          Sales per person per hour:
+          <input
+            tabindex="-1"
+            readonly
+            id="salesPPersonPHour"
+            style="width: 120px; text-align: center"
+          />
+          SEK
+        </div>
+        <div class="row">
+          <span class="eventInfoClass" id="eventInfo"></span>
+          <!-- Here we could add event of possible futures events-->
         </div>
       </div>
     </div>
@@ -432,6 +437,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Script -->
     <script>
+      var runnerToBeGenerated = false;
       class Athlete {
         constructor(name, shifstart, shiftend) {
           this.name = name;
@@ -1422,7 +1428,6 @@
         if (timeSlotIndex === -1) timeSlotIndex = timeSlots.length - 1;
         return timeSlots[timeSlotIndex];
       }
-
       function checkIfWorking(start, end) {
         let startMinutes = timeStringToMinutes(start);
         let endMinutes = timeStringToMinutes(end);
@@ -1432,19 +1437,107 @@
 
         // Determine break time based on working minutes
         if (totalWorkingMinutes > 420) {
-          //if working 7 hours or more, 60 minutes
+          // if working 7 hours or more, 60 minutes
           breakMinutes = 59; // Set to 59 minutes instead of 60
         } else if (totalWorkingMinutes >= 329) {
           breakMinutes = 29; // Set to 29 minutes instead of 30
         }
 
         if (breakMinutes > 0) {
-          breakStartMinutes =
-            startMinutes + Math.floor((totalWorkingMinutes - breakMinutes) / 2);
+          // Calculate the midpoint of the shift
+          let shiftMidpoint =
+            startMinutes + Math.floor(totalWorkingMinutes / 2);
+          let fiveHourLimitStart = startMinutes + 300; // 300 minutes is 5 hours from the start
+          let fiveHourLimitEnd = endMinutes - 300; // 300 minutes before the end
 
+          // Determine the number of athletes who already have breaks scheduled
+          let athletesWithBreaks = scheduledBreaks.filter(
+            (breakTime) =>
+              breakTime.start >= startMinutes && breakTime.end <= endMinutes
+          ).length;
+
+          // Determine break start time based on the number of athletes having breaks
+          if (athletesWithBreaks === 0) {
+            // Only one athlete, break is at the middle of the shift
+            breakStartMinutes = Math.min(shiftMidpoint, fiveHourLimitStart);
+          } else if (athletesWithBreaks === 1) {
+            // Two athletes, stagger breaks 30 minutes before and after the midpoint
+            let proposedBreakStart = shiftMidpoint - 30;
+            if (
+              scheduledBreaks.some(
+                (breakTime) => breakTime.start === proposedBreakStart
+              )
+            ) {
+              breakStartMinutes = Math.min(
+                shiftMidpoint + 30,
+                fiveHourLimitStart
+              );
+            } else {
+              breakStartMinutes = Math.min(
+                proposedBreakStart,
+                fiveHourLimitStart
+              );
+            }
+          } else if (athletesWithBreaks === 2) {
+            // Three athletes, stagger breaks 30 minutes before, at, and after the midpoint
+            if (
+              !scheduledBreaks.some(
+                (breakTime) => breakTime.start === shiftMidpoint - 30
+              )
+            ) {
+              breakStartMinutes = Math.min(
+                shiftMidpoint - 30,
+                fiveHourLimitStart
+              );
+            } else if (
+              !scheduledBreaks.some(
+                (breakTime) => breakTime.start === shiftMidpoint
+              )
+            ) {
+              breakStartMinutes = Math.min(shiftMidpoint, fiveHourLimitStart);
+            } else {
+              breakStartMinutes = Math.min(
+                shiftMidpoint + 30,
+                fiveHourLimitStart
+              );
+            }
+          } else {
+            // Four or more athletes, distribute breaks and keep rest at the midpoint
+            if (
+              !scheduledBreaks.some(
+                (breakTime) => breakTime.start === shiftMidpoint - 30
+              )
+            ) {
+              breakStartMinutes = Math.min(
+                shiftMidpoint - 30,
+                fiveHourLimitStart
+              );
+            } else if (
+              !scheduledBreaks.some(
+                (breakTime) => breakTime.start === shiftMidpoint + 30
+              )
+            ) {
+              breakStartMinutes = Math.min(
+                shiftMidpoint + 30,
+                fiveHourLimitStart
+              );
+            } else {
+              breakStartMinutes = Math.min(shiftMidpoint, fiveHourLimitStart); // All others take breaks at the midpoint
+            }
+          }
+
+          // Ensure that the break start time does not cause more than 5 hours of work after the break
+          let breakEndMinutes = breakStartMinutes + breakMinutes;
+          let remainingShiftAfterBreak = endMinutes - breakEndMinutes;
+
+          if (remainingShiftAfterBreak > 300) {
+            // If more than 5 hours of work after the break, set the break at the midpoint of the shift
+            breakStartMinutes = shiftMidpoint;
+          }
+
+          // Now assign the break and adjust if necessary
           let breakAssigned = false;
           let adjustedBreakStartMinutes = breakStartMinutes;
-          let adjustedBreakEndMinutes = breakStartMinutes + breakMinutes;
 
           while (!breakAssigned) {
             // Check if the proposed break overlaps with any existing breaks
@@ -1474,16 +1567,12 @@
                 end: timeStringToMinutes(breakStartSlot) + breakMinutes,
               });
             } else {
-              // If there is an overlap, try moving the break earlier or later
-              adjustedBreakStartMinutes += 15; // Adjust by 15 minutes and try again
-              adjustedBreakEndMinutes =
-                adjustedBreakStartMinutes + breakMinutes;
+              // If there is an overlap, adjust the break time to avoid conflict
+              adjustedBreakStartMinutes -= 15; // Adjust by 15 minutes earlier and try again
 
-              // Ensure that the adjusted break time doesn't exceed the shift end
-              if (adjustedBreakEndMinutes > endMinutes) {
-                adjustedBreakStartMinutes -= 30;
-                adjustedBreakEndMinutes =
-                  adjustedBreakStartMinutes + breakMinutes;
+              // Ensure that the adjusted break time doesn't go below the start time
+              if (adjustedBreakStartMinutes < startMinutes) {
+                adjustedBreakStartMinutes = startMinutes;
               }
             }
           }
@@ -1515,10 +1604,16 @@
       }
 
       function checkOverlap(breakStart, breakDuration) {
+        // Allow overlap of up to 30 minutes (30 minutes = 30)
         return scheduledBreaks.some(
           (breakTime) =>
             breakStart < breakTime.end &&
-            breakStart + breakDuration > breakTime.start
+            breakStart + breakDuration > breakTime.start &&
+            !(
+              Math.min(breakStart + breakDuration, breakTime.end) -
+                Math.max(breakStart, breakTime.start) <=
+              30
+            )
         );
       }
 
@@ -2303,9 +2398,6 @@
             Athletes[i].breakTimeUno != horaYMinutosAZonea &&
             Athletes[i].breakTimeDos != horaYMinutosAZonea
           ) {
-            console.log(
-              horaYMinutosAZonea + ", " + "Athlete " + (i + 1) + " not on break"
-            );
             // Confirmed that Athlete has started already
             if (
               shiftStartHour < horaAZonear ||
@@ -2401,708 +2493,1381 @@
                 (shiftEndHour === horaAZonear &&
                   shiftEndMinutes > minutosAZonear))
             ) {
-              // Assigning the position if conditions are met
-              //If there are one people working
-              if (contadorTemporal == 1) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[18]; //FLOATING
-                  element.classList.add(TasksClasslist[18]);
+              //if we want to generate a runner, it assigns one, otherwise it generates zones without a runner
+              if (runnerToBeGenerated == true) {
+                console.log("runner generated true");
+                // Assigning the position if conditions are met
+                //If there are one people working
+                if (contadorTemporal == 1) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[18]; //FLOATING
+                    element.classList.add(TasksClasslist[18]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-              //If there are two people working
-              if (contadorTemporal == 2) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[16]; //APPAREL
-                  element.classList.add(TasksClasslist[16]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[5]; //FW
-                  element.classList.add(TasksClasslist[5]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-              //If there are three people working
-              if (contadorTemporal == 3) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[16]; //APPAREL
-                  element.classList.add(TasksClasslist[16]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[7]; //M FW
-                  element.classList.add(TasksClasslist[7]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[6]; //K+W FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-              //If there are four people working
-              if (contadorTemporal == 4) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[1]; //WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[0];
-                  element.classList.add(TasksClasslist[0]); //MNS APP
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[6]; //KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[7]; //MNS FW
-                  element.classList.add(TasksClasslist[7]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              //If there are five people working
-              if (contadorTemporal == 5) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                  element.classList.add(TasksClasslist[17]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[0];
-                  element.classList.add(TasksClasslist[0]); //MNS APP
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[13]; //CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                    Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[7]; //MNS FW
-                  element.classList.add(TasksClasslist[7]);
+                //If there are two people working
+                if (contadorTemporal == 2) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[16]; //APPAREL
+                    element.classList.add(TasksClasslist[16]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[6]; //KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-              // If there are six people working
-              if (contadorTemporal == 6) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[0]; // MNS APP
-                  element.classList.add(TasksClasslist[0]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                  element.classList.add(TasksClasslist[17]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[5]; //FW
+                    element.classList.add(TasksClasslist[5]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                //If there are three people working
+                if (contadorTemporal == 3) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[16]; //APPAREL
+                    element.classList.add(TasksClasslist[16]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[7]; //M FW
+                    element.classList.add(TasksClasslist[7]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[7]; // MNS FW
-                  element.classList.add(TasksClasslist[7]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-              // If there are seven people working
-              if (contadorTemporal == 7) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[0]; // MNS APP
-                  element.classList.add(TasksClasslist[0]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[17]; // APP WMNS + KDS + FR
-                  element.classList.add(TasksClasslist[17]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[6]; //K+W FW
+                    element.classList.add(TasksClasslist[6]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                //If there are four people working
+                if (contadorTemporal == 4) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[1]; //WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[8]; // PRF FW
-                  element.classList.add(TasksClasslist[8]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[0];
+                    element.classList.add(TasksClasslist[0]); //MNS APP
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[7]; // MNS FW
-                  element.classList.add(TasksClasslist[7]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              // If there are eight people working
-              if (contadorTemporal == 8) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[0]; // MNS APP
-                  element.classList.add(TasksClasslist[0]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[1]; // WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[2]; // KIDS APP + FR
-                  element.classList.add(TasksClasslist[2]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[7]; //MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                //If there are five people working
+                if (contadorTemporal == 5) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                    element.classList.add(TasksClasslist[17]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[8]; // PRF FW
-                  element.classList.add(TasksClasslist[8]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[0];
+                    element.classList.add(TasksClasslist[0]); //MNS APP
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 8) {
-                  element.innerText = Tasks[11]; // MNS + JRD FW
-                  element.classList.add(TasksClasslist[11]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              // If there are nine people working
-              if (contadorTemporal == 9) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                  element.classList.add(TasksClasslist[3]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[4]; // MNS APP PRF
-                  element.classList.add(TasksClasslist[4]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[1]; // WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[2]; // KIDS APP + FR
-                  element.classList.add(TasksClasslist[2]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[13]; //CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[7]; //MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                // If there are six people working
+                if (contadorTemporal == 6) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[0]; // MNS APP
+                    element.classList.add(TasksClasslist[0]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[8]; // PRF FW
-                  element.classList.add(TasksClasslist[8]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                    element.classList.add(TasksClasslist[17]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 8) {
-                  element.innerText = Tasks[6]; // KIDS AND WMNS FW
-                  element.classList.add(TasksClasslist[6]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 9) {
-                  element.innerText = Tasks[11]; // MNS + JRD FW
-                  element.classList.add(TasksClasslist[11]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              // If there are ten people working
-              if (contadorTemporal == 10) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                  element.classList.add(TasksClasslist[3]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[4]; // MNS APP PRF
-                  element.classList.add(TasksClasslist[4]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[1]; // WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[2]; // KIDS APP + FR
-                  element.classList.add(TasksClasslist[2]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[7]; // MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                // If there are seven people working
+                if (contadorTemporal == 7) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[0]; // MNS APP
+                    element.classList.add(TasksClasslist[0]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[19]; // MNS FW Performance
-                  element.classList.add(TasksClasslist[8]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                    element.classList.add(TasksClasslist[17]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 8) {
-                  element.innerText = Tasks[9]; // WMNS FW
-                  element.classList.add(TasksClasslist[9]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 9) {
-                  element.innerText = Tasks[10]; // KIDS FW
-                  element.classList.add(TasksClasslist[10]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 10) {
-                  element.innerText = Tasks[11]; // MNS + JRD FW
-                  element.classList.add(TasksClasslist[11]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              // If there are eleven people working
-              if (contadorTemporal == 11) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                  element.classList.add(TasksClasslist[3]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[4]; // MNS APP PRF
-                  element.classList.add(TasksClasslist[4]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[1]; // WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[2]; // KIDS APP + FR
-                  element.classList.add(TasksClasslist[2]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[7]; // MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[14]; // SUPPORT
-                  element.classList.add(TasksClasslist[14]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                // If there are eight people working
+                if (contadorTemporal == 8) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[0]; // MNS APP
+                    element.classList.add(TasksClasslist[0]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
-                }
-                if (positionsAssigned == 8) {
-                  element.innerText = Tasks[19]; // MNS FW Performance
-                  element.classList.add(TasksClasslist[8]);
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 9) {
-                  element.innerText = Tasks[9]; // WMNS FW
-                  element.classList.add(TasksClasslist[9]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 10) {
-                  element.innerText = Tasks[10]; // KIDS FW
-                  element.classList.add(TasksClasslist[10]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 11) {
-                  element.innerText = Tasks[11]; // MNS + JRD FW
-                  element.classList.add(TasksClasslist[11]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-              }
-
-              // If there are twelve people working
-              if (contadorTemporal == 12) {
-                if (positionsAssigned == 1) {
-                  element.innerText = Tasks[3]; // MNS APP NSW + JRD
-                  element.classList.add(TasksClasslist[3]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 2) {
-                  element.innerText = Tasks[4]; // MNS APP PRF
-                  element.classList.add(TasksClasslist[4]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 3) {
-                  element.innerText = Tasks[1]; // WMNS APP
-                  element.classList.add(TasksClasslist[1]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 4) {
-                  element.innerText = Tasks[2]; // KIDS APP + FR
-                  element.classList.add(TasksClasslist[2]);
-
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 5) {
-                  element.innerText = Tasks[13]; // CASHIER
-                  element.classList.add(TasksClasslist[13]);
-
-                  //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                  } else {
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
                     Athletes[i - 1].sellingHours =
                       Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 6) {
-                  element.innerText = Tasks[14]; // SUPPORT
-                  element.classList.add(TasksClasslist[14]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 7) {
-                  element.innerText = Tasks[12]; // RUNNER
-                  element.classList.add(TasksClasslist[12]);
-                  if (
-                    getDayOfWeek(getTodayDate()) == "Saturday" ||
-                    getDayOfWeek(getTodayDate()) == "Sunday"
-                  ) {
-                  } else {
+                // If there are nine people working
+                if (contadorTemporal == 9) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
                     Athletes[i - 1].sellingHours =
-                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
                   }
                 }
-                if (positionsAssigned == 8) {
-                  element.innerText = Tasks[19]; // MNS FW Performance
-                  element.classList.add(TasksClasslist[8]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                // If there are ten people working
+                if (contadorTemporal == 10) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
-                if (positionsAssigned == 9) {
-                  element.innerText = Tasks[9]; // WMNS FW
-                  element.classList.add(TasksClasslist[9]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                // If there are eleven people working
+                if (contadorTemporal == 11) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[14]; // SUPPORT
+                    element.classList.add(TasksClasslist[14]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 11) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
-                if (positionsAssigned == 10) {
-                  element.innerText = Tasks[10]; // KIDS FW
-                  element.classList.add(TasksClasslist[10]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 11) {
-                  element.innerText = Tasks[11]; // MNS + JRD FW
-                  element.classList.add(TasksClasslist[11]);
+                // If there are twelve people working
+                if (contadorTemporal == 12) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
-                }
-                if (positionsAssigned == 12) {
-                  element.innerText = Tasks[15]; // GREETER
-                  element.classList.add(TasksClasslist[15]);
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
 
-                  Athletes[i - 1].sellingHours =
-                    Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[14]; // SUPPORT
+                    element.classList.add(TasksClasslist[14]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[12]; // RUNNER
+                    element.classList.add(TasksClasslist[12]);
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.25 during this task
+                    }
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 11) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 12) {
+                    element.innerText = Tasks[15]; // GREETER
+                    element.classList.add(TasksClasslist[15]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
                 }
               }
+              if (runnerToBeGenerated == false) {
+                console.log("runner generated false");
+                //If there are one people working
+                if (contadorTemporal == 1) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[18]; //FLOATING
+                    element.classList.add(TasksClasslist[18]);
 
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+                //If there are two people working
+                if (contadorTemporal == 2) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[16]; //APPAREL
+                    element.classList.add(TasksClasslist[16]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[5]; //FW
+                    element.classList.add(TasksClasslist[5]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+                //If there are three people working
+                if (contadorTemporal == 3) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[16]; //APPAREL
+                    element.classList.add(TasksClasslist[16]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[7]; //M FW
+                    element.classList.add(TasksClasslist[7]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[6]; //K+W FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+                //If there are four people working
+                if (contadorTemporal == 4) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[1]; //WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[0];
+                    element.classList.add(TasksClasslist[0]); //MNS APP
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[7]; //MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                //If there are five people working
+                if (contadorTemporal == 5) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                    element.classList.add(TasksClasslist[17]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[0];
+                    element.classList.add(TasksClasslist[0]); //MNS APP
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[13]; //CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[7]; //MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[6]; //KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+                // If there are six people working
+                if (contadorTemporal == 6) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[0]; // MNS APP
+                    element.classList.add(TasksClasslist[0]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[17]; // APP WMNS + KDS + FR
+                    element.classList.add(TasksClasslist[17]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[7]; // MNS FW
+                    element.classList.add(TasksClasslist[7]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+                // If there are seven people working
+                if (contadorTemporal == 7) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[0]; // MNS APP
+                    element.classList.add(TasksClasslist[0]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                // If there are eight people working
+                if (contadorTemporal == 8) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[8]; // PRF FW
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[6]; // KIDS AND WMNS FW
+                    element.classList.add(TasksClasslist[6]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                // If there are nine people working
+                if (contadorTemporal == 9) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                // If there are ten people working
+                if (contadorTemporal == 10) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[14]; // SUPPORT
+                    element.classList.add(TasksClasslist[14]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  }
+
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                // If there are eleven people working
+                if (contadorTemporal == 11) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[14]; // SUPPORT
+                    element.classList.add(TasksClasslist[14]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  }
+
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 11) {
+                    element.innerText = Tasks[15]; // GREETER
+                    element.classList.add(TasksClasslist[15]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+
+                // If there are twelve people working
+                if (contadorTemporal == 12) {
+                  if (positionsAssigned == 1) {
+                    element.innerText = Tasks[3]; // MNS APP NSW + JRD
+                    element.classList.add(TasksClasslist[3]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 2) {
+                    element.innerText = Tasks[4]; // MNS APP PRF
+                    element.classList.add(TasksClasslist[4]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 3) {
+                    element.innerText = Tasks[1]; // WMNS APP
+                    element.classList.add(TasksClasslist[1]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 4) {
+                    element.innerText = Tasks[2]; // KIDS APP + FR
+                    element.classList.add(TasksClasslist[2]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 5) {
+                    element.innerText = Tasks[13]; // CASHIER
+                    element.classList.add(TasksClasslist[13]);
+
+                    //If there is a weekday, then the selling hours are 0,5 for each 30 minutes. During a weekend is 0,25
+                    if (
+                      getDayOfWeek(getTodayDate()) == "Saturday" ||
+                      getDayOfWeek(getTodayDate()) == "Sunday"
+                    ) {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                    } else {
+                      Athletes[i - 1].sellingHours =
+                        Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                    }
+                  }
+                  if (positionsAssigned == 6) {
+                    element.innerText = Tasks[14]; // SUPPORT
+                    element.classList.add(TasksClasslist[14]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.25; //Increase the selling hours by 0.5 during this task
+                  }
+
+                  if (positionsAssigned == 7) {
+                    element.innerText = Tasks[19]; // MNS FW Performance
+                    element.classList.add(TasksClasslist[8]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 8) {
+                    element.innerText = Tasks[9]; // WMNS FW
+                    element.classList.add(TasksClasslist[9]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 9) {
+                    element.innerText = Tasks[10]; // KIDS FW
+                    element.classList.add(TasksClasslist[10]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 10) {
+                    element.innerText = Tasks[11]; // MNS + JRD FW
+                    element.classList.add(TasksClasslist[11]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 11) {
+                    element.innerText = Tasks[15]; // GREETER
+                    element.classList.add(TasksClasslist[15]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                  if (positionsAssigned == 12) {
+                    element.innerText = Tasks[5]; //FW
+                    element.classList.add(TasksClasslist[5]);
+
+                    Athletes[i - 1].sellingHours =
+                      Athletes[i - 1].sellingHours + 0.5; //Increase the selling hours by 0.5 during this task
+                  }
+                }
+              }
               positionsAssigned++;
             }
           }
         }
       }
+
       function drawafter21() {
         let AthleteNumber = 0;
         let positionsAssigned = 0;
@@ -3150,6 +3915,11 @@
       }
 
       function drawPositions() {
+        if (document.getElementById("runnerGenerated").checked == true) {
+          runnerToBeGenerated = true;
+        } else {
+          runnerToBeGenerated = false;
+        }
         //     draw0700();
         //     draw0730();
         //     draw0800();
